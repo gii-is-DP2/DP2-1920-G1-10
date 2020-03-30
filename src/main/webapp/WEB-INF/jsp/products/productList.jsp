@@ -21,7 +21,6 @@
 				<th>Price</th>
 				<th>Stock</th>
 				<th>Book</th>
-				<th>Purchase</th>
 				<sec:authorize access="hasAuthority('admin')">
 					<th>Delete</th>
 				</sec:authorize>
@@ -43,7 +42,6 @@
 					</spring:url>
 					<td><a href="${fn:escapeXml(bookingUrl)}">Book</a></td>
 					
-					<td><a href="products/purchase">Purchase</a></td>
 					<sec:authorize access="hasAuthority('admin')">
 						<td><spring:url value="/products/delete/{productId}" var="productUrl">
 								<spring:param name="productId" value="${product.id}" />
