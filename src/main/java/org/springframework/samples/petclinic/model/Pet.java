@@ -30,6 +30,7 @@ import javax.persistence.Table;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -48,10 +49,12 @@ import javax.persistence.TemporalType;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-	@Column(name = "birth_date")        
+	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate birthDate;
-
+	@ManyToOne
+	@JoinColumn(name = "gender_id")
+	private Gender gender;
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	private PetType type;
@@ -59,6 +62,13 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet2", fetch = FetchType.EAGER)
+	private Set<Cita> citas_pet1;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet1", fetch = FetchType.EAGER)
+	private Set<Cita> citas_pet2;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Set<MatingOffer> matingOffers;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
@@ -107,6 +117,45 @@ public class Pet extends NamedEntity {
 	public void addVisit(Visit visit) {
 		getVisitsInternal().add(visit);
 		visit.setPet(this);
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public Set<MatingOffer> getMatingOffers() {
+		return matingOffers;
+	}
+
+	public void setMatingOffers(Set<MatingOffer> matingOffers) {
+		this.matingOffers = matingOffers;
+	}
+
+	public Set<Cita> getCitas_pet1() {
+		return citas_pet1;
+	}
+
+	public void setCitas_pet1(Set<Cita> citas_pet1) {
+		this.citas_pet1 = citas_pet1;
+	}
+
+	public Set<Cita> getCitas_pet2() {
+		return citas_pet2;
+	}
+
+	public void setCitas_pet2(Set<Cita> citas_pet2) {
+		this.citas_pet2 = citas_pet2;
+	}
+
+	public ArrayList<Cita> getCitas() {
+		ArrayList<Cita> citas = new ArrayList<Cita>();
+		citas.addAll(getCitas_pet1());
+		citas.addAll(getCitas_pet2());
+		return citas;
 	}
 
 }

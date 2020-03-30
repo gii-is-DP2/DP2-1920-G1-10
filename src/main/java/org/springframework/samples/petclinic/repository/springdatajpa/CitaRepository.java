@@ -16,12 +16,13 @@
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Cita;
-import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -32,22 +33,14 @@ import org.springframework.samples.petclinic.repository.PetRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface SpringDataPetRepository extends PetRepository, Repository<Pet, Integer> {
+public interface CitaRepository extends CrudRepository<Cita, Integer> {
 
-	@Override
-	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
-	List<PetType> findPetTypes() throws DataAccessException;
 
-	@Override
-	@Query("SELECT gen FROM Gender gen ")
-	List<Gender> findPetgender() throws DataAccessException;
-
-	@Query("SELECT pt FROM Pet pt JOIN pt.gender g   Where g.name = ?1")
-	List<Pet> findPetByGender(String gender) throws DataAccessException;
-
-	@Query("SELECT g FROM Gender g   Where g.name = ?1")
-	Gender findGenderByStr(String gender) throws DataAccessException;
-
-	@Query("SELECT pe FROM Pet pe  join pe.owner ow  join ow.user us  Where us.username = ?1")
-	List<Pet> findPetByOwneId(String ownerName) throws DataAccessException;
+	@Query("SELECT ct FROM Cita ct where pet1.id =?1")
+	List<Cita> findByPet(int petId) throws DataAccessException;
+	
+	
+	@Query("SELECT ct FROM Cita ct where ct.id =?1")
+	Cita findCitaById(int citaId) throws DataAccessException;
+	
 }

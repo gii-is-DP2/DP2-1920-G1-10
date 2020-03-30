@@ -20,6 +20,8 @@
             <petclinic:inputField label="Username" name="user.username"/>
             <petclinic:inputField label="Password" name="user.password"/>
         </div>
+         <input type="hidden" name="status" />
+        
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>

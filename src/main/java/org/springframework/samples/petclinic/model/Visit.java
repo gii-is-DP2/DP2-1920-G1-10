@@ -33,6 +33,7 @@ import javax.persistence.TemporalType;
  * @author Ken Krebs
  */
 @Entity
+
 @Table(name = "visits")
 public class Visit extends BaseEntity {
 

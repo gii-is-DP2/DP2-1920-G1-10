@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -63,7 +64,10 @@ public class PetController {
 	public Collection<PetType> populatePetTypes() {
 		return this.petService.findPetTypes();
 	}
-
+	@ModelAttribute("genders")
+	public Collection<Gender> populatePetGenders() {
+		return this.petService.findPetgender();
+	}
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
 		return this.ownerService.findOwnerById(ownerId);
@@ -83,9 +87,14 @@ public class PetController {
 	public void initOwnerBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
+	@InitBinder("gender")
+	public void initGenderBinder(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("gender");
+	}
 
 	@InitBinder("pet")
 	public void initPetBinder(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("gender");
 		dataBinder.setValidator(new PetValidator());
 	}
 
@@ -98,13 +107,17 @@ public class PetController {
 	}
 
 	@PostMapping(value = "/pets/new")
-	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {		
+	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result,@RequestParam("gender") String genderStr, ModelMap model) {		
+		String prueba= genderStr;
+		Gender gen = petService.finPetByGenderStr(genderStr);
+		pet.setGender(gen);
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
                     try{
+                    	pet.setGender(gen);
                     	owner.addPet(pet);
                     	this.petService.savePet(pet);
                     }catch(DuplicatedPetNameException ex){
@@ -133,15 +146,21 @@ public class PetController {
      * @return
      */
         @PostMapping(value = "/pets/{petId}/edit")
-	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
-		if (result.hasErrors()) {
+	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId,@RequestParam("gender") String genderStr, ModelMap model) {
+		String prueba= genderStr;
+		Gender gen = petService.finPetByGenderStr(genderStr);
+		pet.setGender(gen);
+        	if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
                         Pet petToUpdate=this.petService.findPetById(petId);
-			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits");                                                                                  
-                    try {                    
+                        pet.setGender(gen);
+			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits");  
+			pet.setGender(gen);
+                    try {       
+                  	    
                         this.petService.savePet(petToUpdate);                    
                     } catch (DuplicatedPetNameException ex) {
                         result.rejectValue("name", "duplicate", "already exists");
