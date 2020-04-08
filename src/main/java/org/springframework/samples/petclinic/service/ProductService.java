@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import org.h2.security.auth.AuthConfigException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Product;
@@ -32,14 +33,16 @@ public class ProductService {
 
 	@Transactional
 	public void delete(Product product) {
+		if (checkAdmin() != true) {
+			throw new AuthConfigException("Debe ser administrador");
+		}
 		productRepository.delete(product);
 	}
 
 	@Transactional
 	public static Boolean checkAdmin() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return authentication.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("admin"));
+		return authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("admin"));
 	}
 
 }
