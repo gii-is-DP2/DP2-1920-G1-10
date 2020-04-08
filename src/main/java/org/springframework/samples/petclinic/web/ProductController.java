@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import javax.validation.Valid;
 
+import org.h2.security.auth.AuthConfigException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.service.ProductService;
@@ -30,6 +31,9 @@ public class ProductController {
 
 	@GetMapping(path = "/new")
 	private String initCreationForm(ModelMap modelMap) {
+		if (ProductService.checkAdmin() != true) {
+			throw new AuthConfigException("Debe ser administrador");
+		}
 		String view = "products/editProduct";
 		modelMap.addAttribute("product", new Product());
 		return view;
@@ -40,8 +44,6 @@ public class ProductController {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("product", product);
 			return "products/editProduct";
-		} else if (product.getStock() < 0) {
-			throw new IllegalArgumentException("Fallo");
 		} else {
 			productService.save(product);
 			modelMap.addAttribute("message", "Saved successfully");

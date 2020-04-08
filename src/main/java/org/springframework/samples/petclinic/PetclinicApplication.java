@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication()
-public class PetinderApplication {
+public class PetclinicApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PetinderApplication.class, args);
+		SpringApplication.run(PetclinicApplication.class, args);
 	}
 
 }
