@@ -31,9 +31,9 @@ public class ProductController {
 
 	@GetMapping(path = "/new")
 	private String initCreationForm(ModelMap modelMap) {
-		if (ProductService.checkAdmin() != true) {
-			throw new AuthConfigException("Debe ser administrador");
-		}
+//		if (ProductService.checkAdmin() != true) {
+//			throw new AuthConfigException("Debe ser administrador");
+//		}
 		String view = "products/editProduct";
 		modelMap.addAttribute("product", new Product());
 		return view;

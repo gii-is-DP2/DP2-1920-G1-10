@@ -129,7 +129,7 @@ public class CitaController {
        if(cita != null) {
     	   MatingOffer mat = matingOfferService.findMatById(matingOfferId);
     	   mat.getCitas().remove(cita);
-			citaservice.delete(cita);
+			
 			modelMap.addAttribute("message", "cita successfully delete");
 			
 		}else {

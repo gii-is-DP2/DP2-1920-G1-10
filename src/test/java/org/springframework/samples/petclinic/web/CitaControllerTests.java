@@ -92,8 +92,10 @@ class CitaControllerTests {
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID)
-				.param("pet2", "george").with(csrf()).param("status", "pending")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/matingOffer/{matingOfferId}"));
+				.param("pet2", "prueba").with(csrf())
+				.param("status", "pending"))
+		        .andExpect(status().isOk())
+				.andExpect(view().name("matingOffers/matingOffersList"));
 	}
 
 	@WithMockUser(value = "spring")
