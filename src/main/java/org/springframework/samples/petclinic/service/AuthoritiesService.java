@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +52,13 @@ public class AuthoritiesService {
 		authority.setUsername(username);
 		authority.setAuthority(role);
 		authoritiesRepository.save(authority);
+	}
+	
+
+	@Transactional
+	public static Boolean checkAdmin() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("admin"));
 	}
 
 
