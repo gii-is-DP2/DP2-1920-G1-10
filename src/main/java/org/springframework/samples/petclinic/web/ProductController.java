@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.h2.security.auth.AuthConfigException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Product;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +32,7 @@ public class ProductController {
 
 	@GetMapping(path = "/new")
 	private String initCreationForm(ModelMap modelMap) {
-		if (ProductService.checkAdmin() != true) {
+		if (AuthoritiesService.checkAdmin() != true) {
 			throw new AuthConfigException("Debe ser administrador");
 		}
 		String view = "products/editProduct";
@@ -62,11 +63,13 @@ public class ProductController {
 	@GetMapping(path = "delete/{productId}")
 	private String borrarProducto(@PathVariable("productId") int productId, ModelMap modelMap) {
 		Product product = productService.findProductById(productId);
-		if (product != null) {
+		if (AuthoritiesService.checkAdmin() != true) {
+			throw new AuthConfigException("Debe ser administrador");
+		} else if (product != null) {
 			productService.delete(product);
 			modelMap.addAttribute("message", "Product successfully deleted");
 		} else {
-			modelMap.addAttribute("message", "Product not found");
+			modelMap.addAttribute("message", "Deletion failed");
 		}
 		return listadoProductos(modelMap);
 	}
