@@ -73,10 +73,6 @@
                                 <td><c:out value="${visit.description}"/></td>
                             </tr>
                         </c:forEach>
-<<<<<<< HEAD
-                       
-                        
-=======
                         <thead>
                         <tr>
                             <th>Cita Date</th>
@@ -94,7 +90,6 @@
                             </spring:url> <a href="/owners/${owner.id}/pets/${pet.id}/citas/delete/${cita.id}">Delete</a></td>
                             </tr>
                         </c:forEach>
->>>>>>> ae4e7895ce66a828373e26f901c97cd9b4614075
                         <tr>
                             <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
@@ -110,10 +105,6 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
                             </td>
-<<<<<<< HEAD
-                            
-                            
-=======
                             <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/citas/new" var="citaUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>
@@ -121,7 +112,6 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(citaUrl)}">Add cita</a>
                             </td>
->>>>>>> ae4e7895ce66a828373e26f901c97cd9b4614075
                         </tr>
                     </table>
                 </td>
