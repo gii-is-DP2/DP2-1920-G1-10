@@ -63,9 +63,9 @@ public class Pet extends NamedEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet2", fetch = FetchType.EAGER)
-	private Set<Cita> citas_pet1;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet1", fetch = FetchType.EAGER)
+	private Set<Cita> citas_pet1;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet2", fetch = FetchType.EAGER)
 	private Set<Cita> citas_pet2;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<MatingOffer> matingOffers;
