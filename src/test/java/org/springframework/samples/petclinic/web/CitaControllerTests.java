@@ -40,9 +40,7 @@ import org.springframework.test.web.servlet.MockMvc;
  *
  * @author Colin But
  */
-@WebMvcTest(controllers = CitaController.class,
-excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-excludeAutoConfiguration= SecurityConfiguration.class)
+@WebMvcTest(controllers = CitaController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class CitaControllerTests {
 
 	private static final int TEST_PET_ID = 1;
@@ -90,19 +88,18 @@ class CitaControllerTests {
 		given(this.matingOfferService.findMatById(TEST_MAT_ID)).willReturn(mat);
 
 	}
-
 	@WithMockUser(value = "spring")
-
 	@Test
 	void testInitNewVisitForm() throws Exception {
 		mockMvc.perform(get("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID))
 				.andExpect(status().isOk()).andExpect(view().name("citas/editCitas"));
 	}
 
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
-		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID)
+		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
 				.param("Pet2.id", "1")
 				.param("status", "pending")
 				.param("place", "hola")
@@ -112,16 +109,13 @@ class CitaControllerTests {
 	}
 
 	@WithMockUser(value = "spring")
-
 	@Test
 	void testProcessNewVisitFormHasErrors() throws Exception {
-		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID)
+		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
 				.param("Pet2.id", "1")
 				.param("status", "pending")
 				.param("place", "hola")
-				.param("dateTime", "2020/04/30"))
-		        
-	
+				.param("dateTime", "2020/04/30"))		        
 				.andExpect(status().isOk()).andExpect(view().name("pet/createOrUpdateVisitForm"));
 	}
 
