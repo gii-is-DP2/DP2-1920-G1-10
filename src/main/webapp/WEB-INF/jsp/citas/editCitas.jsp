@@ -38,6 +38,7 @@
             </tr>
         </table>
  <c:if test="${cita['new']}">
+  
         <form:form modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
 			

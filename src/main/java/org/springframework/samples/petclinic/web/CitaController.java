@@ -45,14 +45,7 @@ public class CitaController {
 	@Autowired
 	private MatingOfferService matingOfferService;
 
-//	@GetMapping(value = "/citas")
-//	private String ListadoCitas(ModelMap modelmap) {
-//		String vista = "citas/listaCitas";
-//		Iterable<Cita> citas = citaservice.findAll();
-//		modelmap.addAttribute("citas", citas);
-//		return vista;
-//
-//	}
+
 	@RequestMapping("cita")
 	public Cita loadPetWithita(@PathVariable("petId") int petId) {
 		Pet pet = this.petService.findPetById(petId);
@@ -62,14 +55,7 @@ public class CitaController {
 	}
 	@GetMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
 	public String initNewVisitForm(@PathVariable("petId") int petId,@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) {
-//		int gender_id = 0;
-		//Pet pet1 = petService.findPetById(petId);
-//		if (pet1.getGender().getName().equals("Masculino")) {
-//			gender_id = 2;
-//		}else {
-//			gender_id = 1;
-//		}
-//		List<Pet> pets = petService.finPetByGender(0);
+
 		Cita cita =  new Cita();
 	
 		
@@ -104,32 +90,13 @@ public class CitaController {
 	}
 
 
-//	@PostMapping(path = "citas/save")
-//	public String saveCita(@Valid Cita cita,BindingResult result,ModelMap modelMap,@RequestParam("Pet1.id") int pet1_id,@RequestParam("Pet2.id") int pet2_id) throws DataAccessException, DuplicatedPetNameException {
-//		String view = "/listacitas";
-//		if(result.hasErrors()) {
-//			modelMap.addAttribute("cita", cita);
-//			
-//			return "citas/editCitas";
-//		}else {
-//			
-//			
-//		
-//		cita.setPet1(petService.findPetById(pet1_id));
-//		cita.setPet2(petService.findPetById(pet2_id));
-//		
-//		modelMap.addAttribute("message", "Cita successfully save");
-//		citaservice.saveCita(cita);
-//		}
-//		return view;
-//	}
+
 	@GetMapping(path = "/matingOffers/{matingOfferId}/citas/delete/{citaId}")
-    private String borrarcita(@PathVariable("citaId") int citaId,@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) {
+    private String borrarcita(@PathVariable("citaId") int citaId,@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) throws DataAccessException {
        Cita cita = citaservice.findCitaById(citaId);
        if(cita != null) {
-    	   MatingOffer mat = matingOfferService.findMatById(matingOfferId);
-    	   mat.getCitas().remove(cita);
-			citaservice.delete(cita);
+    	  citaservice.delete(cita);
+			
 			modelMap.addAttribute("message", "cita successfully delete");
 			
 		}else {
