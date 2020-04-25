@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.ui.product;
+package org.springframework.samples.petclinic.ui;
 
 import static org.junit.Assert.fail;
 
@@ -15,7 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class ListProducts {
+public class ProductUIDeleteFail {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -31,16 +31,16 @@ public class ListProducts {
 	}
 
 	@Test
-	public void testListProducts() throws Exception {
+	public void testProductUIDeleteSuccess() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.linkText("Login")).click();
-		driver.findElement(By.id("username")).click();
 		driver.findElement(By.id("username")).clear();
 		driver.findElement(By.id("username")).sendKeys("admin1");
 		driver.findElement(By.id("password")).clear();
 		driver.findElement(By.id("password")).sendKeys("4dm1n");
 		driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
-		driver.findElement(By.linkText("Products")).click();
+		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li/a/span[2]")).click();
+		driver.findElement(By.linkText("Delete")).click();
 	}
 
 //	@AfterEach

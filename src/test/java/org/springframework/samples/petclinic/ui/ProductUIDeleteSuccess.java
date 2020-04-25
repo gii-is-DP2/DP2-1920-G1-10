@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.ui.product;
+package org.springframework.samples.petclinic.ui;
 
 import static org.junit.Assert.fail;
 
@@ -15,9 +15,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class ShowProduct {
-
+public class ProductUIDeleteSuccess {
 	private WebDriver driver;
+	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
@@ -26,20 +26,21 @@ public class ShowProduct {
 		String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		driver = new FirefoxDriver();
+		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testShowProduct() throws Exception {
+	public void testProductUIDeleteSuccess() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.linkText("Login")).click();
 		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys("owner1");
+		driver.findElement(By.id("username")).sendKeys("admin1");
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys("0wn3r");
+		driver.findElement(By.id("password")).sendKeys("4dm1n");
 		driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
-		driver.findElement(By.linkText("Products")).click();
-		driver.findElement(By.linkText("Benevo Para Gatos y Perros")).click();
+		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li/a/span[2]")).click();
+		driver.findElement(By.linkText("Delete")).click();
 	}
 
 //	@AfterEach

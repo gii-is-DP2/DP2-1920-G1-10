@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.ui.product;
+package org.springframework.samples.petclinic.ui;
 
 import static org.junit.Assert.fail;
 
@@ -15,7 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class NewProductSuccess {
+public class ProductUINewSuccess {
 
 		private WebDriver driver;
 		private String baseUrl;
