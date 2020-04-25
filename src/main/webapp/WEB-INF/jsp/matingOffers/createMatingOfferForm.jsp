@@ -8,13 +8,6 @@
 
 
 <petclinic:layout pageName="owners">
-    <jsp:attribute name="customScript">
-        <script>
-            $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
-            });
-        </script>
-    </jsp:attribute>
     <jsp:body>
         <h2><c:if test="${matingOffer['new']}">New </c:if>matingOffer</h2>
 
@@ -29,12 +22,7 @@
 				<form:option value="0" label="---" />
 				<form:options items="${pets}" itemLabel="name" itemValue="id" />
 			</form:select>
-			
-			<petclinic:inputField label="date" name="date" />
-			<petclinic:inputField label="description" name="description" />
-			
-	
-
+				<petclinic:inputField label="description" name="description" />
 		</div>
 
             <div class="form-group">
