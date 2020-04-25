@@ -34,7 +34,6 @@
 	<spring:url value="{productId}/purchase" var="purchaseUrl">
 		<spring:param name="purchaseId" value="${product.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(purchaseUrl)}" class="btn btn-default">Purchase</a>
 
 	<br />
 	<br />
