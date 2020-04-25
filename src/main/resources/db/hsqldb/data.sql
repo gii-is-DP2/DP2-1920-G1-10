@@ -4,6 +4,10 @@ INSERT INTO authorities VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities VALUES ('owner1','owner');
+
+INSERT INTO users(username,password,enabled) VALUES ('prueba','prueba',TRUE);
+INSERT INTO authorities VALUES ('prueba','owner');
+
 INSERT INTO users(username,password,enabled) VALUES ('prueba1','practica',TRUE);
 INSERT INTO authorities VALUES ('prueba1','owner');
 -- One vet user, named vet1 with passwor v3t
@@ -46,8 +50,7 @@ INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085
 INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
-
-
+INSERT INTO owners VALUES (11, 'Prueba', 'pruebesita', 'indigente', 'las 3000', '666666666', 'prueba');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (1, 'Leo', '2010-09-07', 1, 1,1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (2, 'Basil', '2012-08-06', 6, 2,1);
@@ -62,6 +65,9 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (10, 'Mul
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9,1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10,1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (13, 'Sly', '2012-06-08', 1, 10,2);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (14, 'pruebaMasc', '2012-06-08', 1, 11,1);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (15, 'pruebaFem', '2012-06-08', 1, 11,2);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,gender_id) VALUES (16, 'hamstar', '2012-06-08', 6, 11,2);
 
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
@@ -79,8 +85,9 @@ INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (3, 'Ben
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (4, 'Funda Para Cama De Perro','Características de la Funda para cama de perro o animal domestico:Alto: 7 cm ± 1 cm.',19.0,45,'https://ventadecolchones.com/7890-large_default/funda-para-cama-de-perro.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (5, 'Kong Puppy S','Diseñado para introducir comida en el interior y la mascota se entretenga sacándola',4.49,60,'https://static.miscota.com/media/1/photos/products/146981/146981_1_g.jpeg');
 
-INSERT INTO matingoffers(id,pet_id,description,date) VALUES (1,1, 'Pequeño y peludo',  '2010-01-20');
-INSERT INTO matingoffers(id,pet_id,description,date) VALUES (2,2,'Aún más pequeño',  '2013-02-28');
-INSERT INTO matingoffers(id,pet_id,description,date) VALUES (3,3,'Es muy serio',  '2015-06-10');
-INSERT INTO matingoffers(id,pet_id,description,date) VALUES (4,2, 'Huele a tabaco y berenjena',  '2010-01-20');
-INSERT INTO matingoffers(id,pet_id,description,date) VALUES (5,4, 'Bombástico',  '2009-01-12');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (1,1, 'Pequeño y peludo');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (2,2,'Aún más pequeño');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (3,3,'Es muy serio');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (4,2, 'Huele a tabaco y berenjena');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (5,4, 'Bombástico');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'ven');
