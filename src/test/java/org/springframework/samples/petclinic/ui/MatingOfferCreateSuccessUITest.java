@@ -14,8 +14,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
-public class MatingOfferUIList {
+public class MatingOfferCreateSuccessUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -31,15 +32,24 @@ public class MatingOfferUIList {
   }
 
   @Test
-  public void testMatingOfferUIList() throws Exception {
+  public void testMatingOfferCreateSuccessUITest() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
     driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("admin1");
+    driver.findElement(By.id("username")).sendKeys("prueba");
+    driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("4dm1n");
+    driver.findElement(By.id("password")).sendKeys("prueba");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a")).click();
+    driver.findElement(By.xpath("//a[contains(text(),'Add\n		Mating Offer')]")).click();
+    driver.findElement(By.id("PetId")).click();
+    new Select(driver.findElement(By.id("PetId"))).selectByVisibleText("pruebaFem");
+    driver.findElement(By.xpath("//option[@value='15']")).click();
+    driver.findElement(By.id("description")).click();
+    driver.findElement(By.id("description")).clear();
+    driver.findElement(By.id("description")).sendKeys("nueva oferta success");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
   }
 
   @AfterEach
@@ -84,3 +94,4 @@ public class MatingOfferUIList {
     }
   }
 }
+

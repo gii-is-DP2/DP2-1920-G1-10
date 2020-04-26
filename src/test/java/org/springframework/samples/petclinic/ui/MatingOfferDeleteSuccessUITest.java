@@ -15,8 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-
-public class MatingOfferUIDeleteFail {
+public class MatingOfferDeleteSuccessUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -26,23 +25,25 @@ public class MatingOfferUIDeleteFail {
   public void setUp() throws Exception {
 	  String pathToGeckoDriver = "C:\\Users\\lpard\\Desktop\\gecko";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
-    driver = new FirefoxDriver();
+  driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testMatingOfferUIDeleteFail() throws Exception {
+  public void testMatingOfferDeleteSuccessUITest() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("owner1");
-    driver.findElement(By.id("password")).click();
+    driver.findElement(By.id("username")).sendKeys(Keys.DOWN);
+    driver.findElement(By.id("username")).clear();
+    driver.findElement(By.id("username")).sendKeys("prueba");
     driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("0wn3r");
-    driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
-    driver.findElement(By.linkText("Mating offers")).click();
-    driver.findElement(By.linkText("Delete")).click();
+    driver.findElement(By.id("password")).sendKeys("prueba");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
+    driver.findElement(By.xpath("(//a[contains(text(),'Delete')])[6]")).click();
   }
 
   @AfterEach
