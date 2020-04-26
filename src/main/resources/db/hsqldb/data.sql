@@ -90,8 +90,8 @@ INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (4, 'Fun
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (5, 'Kong Puppy S','Diseñado para introducir comida en el interior y la mascota se entretenga sacándola',4.49,60,'https://static.miscota.com/media/1/photos/products/146981/146981_1_g.jpeg');
 
 INSERT INTO matingoffers(id,pet_id,description) VALUES (1,1, 'Pequeño y peludo');
-INSERT INTO matingoffers(id,pet_id,description) VALUES (2,2,'Aún más pequeño');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (2,2,'Le gustan las pipas');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (3,3,'Es muy serio');
-INSERT INTO matingoffers(id,pet_id,description) VALUES (4,2, 'Huele a tabaco y berenjena');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (4,9, 'Huele a tabaco y berenjena');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (5,4, 'Bombástico');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'ven');

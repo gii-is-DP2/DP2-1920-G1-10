@@ -9,13 +9,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import lombok.extern.java.Log;
+
+@Log
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class MatingOfferListUITest {
+	
+  @LocalServerPort
+  private int port;
+  
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -32,8 +42,8 @@ public class MatingOfferListUITest {
 
   @Test
   public void testMatingOfferListUITest() throws Exception {
-    driver.get("http://localhost:8080/");
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
+	driver.get("http://localhost:"+port);
+	driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("prueba");
     driver.findElement(By.id("password")).clear();
