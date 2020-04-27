@@ -11,7 +11,7 @@
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
 <petclinic:layout pageName="products">
-	<h2>Products</h2>
+	<h2 id="listadoProductos">List of Products</h2>
 
 	<table id="productsTable" class="table table-striped">
 		<thead>
@@ -36,14 +36,15 @@
 					<td><c:out value="${product.description}" /></td>
 					<td><c:out value="${product.price}" /></td>
 					<td><c:out value="${product.stock}" /></td>
-			
+
 					<spring:url value="/bookings/new/{productId}" var="bookingUrl">
 						<spring:param name="productId" value="${product.id}" />
 					</spring:url>
 					<td><a href="${fn:escapeXml(bookingUrl)}">Book</a></td>
-					
+
 					<sec:authorize access="hasAuthority('admin')">
-						<td><spring:url value="/products/delete/{productId}" var="productUrl">
+						<td><spring:url value="/products/delete/{productId}"
+								var="productUrl">
 								<spring:param name="productId" value="${product.id}" />
 							</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
 					</sec:authorize>
