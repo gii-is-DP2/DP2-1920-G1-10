@@ -19,8 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import io.cucumber.java.en.Then;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NewProductUITest {
@@ -39,8 +37,8 @@ public class NewProductUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
-		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+		// String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
+		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		driver = new FirefoxDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -53,7 +51,7 @@ public class NewProductUITest {
 
 	@Test
 	public void testNewProductAsOwner() throws Exception {
-		as("owner1").paginaDeError();
+		as("owner1").noMuestraBotonAdd();
 	}
 
 	private CharSequence passwordOf(String username) {
@@ -75,8 +73,8 @@ public class NewProductUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
 		productosAlInicio = contarProductos();
-		driver.findElement(By.xpath("//a[contains(@href, '/products/new')]")).click();
 		if (username.equals("admin1")) {
+			driver.findElement(By.xpath("//a[contains(@href, '/products/new')]")).click();
 			driver.findElement(By.id("name")).click();
 			driver.findElement(By.id("name")).clear();
 			driver.findElement(By.id("name")).sendKeys(nombreProducto);
@@ -94,6 +92,21 @@ public class NewProductUITest {
 		return this;
 	}
 
+	private int contarProductos() {
+		WebElement tablaProductos = driver.findElement(By.xpath("//table[@id='productsTable']"));
+		List<WebElement> filasDetablaProductos = tablaProductos.findElements(By.tagName("tr"));
+		return filasDetablaProductos.size() - 1;
+	}
+
+	public void elNuevoProductoSeEncuentraEnLaTabla() {
+		assertTrue(contarProductos() > productosAlInicio);
+		assertTrue(driver.findElement(By.xpath("//table[@id='productsTable']")).getText().contains(nombreProducto));
+	}
+
+	private void noMuestraBotonAdd() {
+		assertTrue(!driver.findElement(By.xpath("//body/div")).getText().contains("New product"));
+	}
+
 	@AfterEach
 	public void tearDown() throws Exception {
 		driver.quit();
@@ -101,22 +114,5 @@ public class NewProductUITest {
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);
 		}
-	}
-
-	private int contarProductos() {
-		WebElement tablaProductos = driver.findElement(By.xpath("//table[@id='productsTable']"));
-		List<WebElement> filasDetablaProductos = tablaProductos.findElements(By.tagName("tr"));
-		return filasDetablaProductos.size() - 1;
-	}
-
-	@Then("El nuevo producto se añade al resto")
-	public void elNuevoProductoSeEncuentraEnLaTabla() {
-		assertTrue(contarProductos() > productosAlInicio);
-		assertTrue(driver.findElement(By.xpath("//table[@id='productsTable']")).getText().contains(nombreProducto));
-	}
-
-	@Then("Soy redireccionado a la página de error")
-	private void paginaDeError() {
-		assertEquals(driver.findElement(By.xpath("//h2[@id='oops']")).getText(), textoError);
 	}
 }

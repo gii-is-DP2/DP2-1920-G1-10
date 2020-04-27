@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.ui;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,16 +31,21 @@ public class ListProductUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
-		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+		//String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
+		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		driver = new FirefoxDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testList() throws Exception {
+	public void testListAsLoggedIn() throws Exception {
 		as("owner1").listadoDeProductos();
+	}
+	
+	@Test
+	public void testListAsNotLoggedIn() throws Exception {
+		asNotLogged().inLogIn();
 	}
 
 	private CharSequence passwordOf(String username) {
@@ -59,6 +65,20 @@ public class ListProductUITest {
 		return this;
 	}
 
+	private ListProductUITest asNotLogged() {
+		driver.get("http://localhost:" + port);
+		driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
+		return this;
+	}
+	
+	private void listadoDeProductos() {
+		assertEquals("List of Products", driver.findElement(By.xpath("//h2[@id='listadoProductos']")).getText());
+	}
+	
+	private void inLogIn() {
+	    assertEquals("Sign in", driver.findElement(By.xpath("//button[@type='submit']")).getText());
+	}
+
 	@AfterEach
 	public void tearDown() throws Exception {
 		driver.quit();
@@ -66,10 +86,6 @@ public class ListProductUITest {
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);
 		}
-	}
-
-	private void listadoDeProductos() {
-		assertEquals("List of Products", driver.findElement(By.xpath("//h2[@id='listadoProductos']")).getText());
 	}
 
 }
