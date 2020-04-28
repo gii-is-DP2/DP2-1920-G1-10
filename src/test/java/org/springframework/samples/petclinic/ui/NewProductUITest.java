@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.ui;
 
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -28,7 +27,6 @@ public class NewProductUITest {
 
 	private int productosAlInicio;
 	private String nombreProducto = "Comida para perros";
-	private String textoError = "Something happened...";
 
 	private String username;
 	private WebDriver driver;
