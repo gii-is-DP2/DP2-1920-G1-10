@@ -42,7 +42,6 @@ public class MatingOfferController {
 
 		String view = "matingOffers/matingOfferList";
 		Iterable<MatingOffer> matingOffers = matingOfferService.findAll();
-		Iterable<MatingOffer> mine = new ArrayList<MatingOffer>();
 		modelMap.addAttribute("matingOffers", matingOffers);
 		return view;
 	}

@@ -91,7 +91,7 @@ INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (5, 'Kon
 
 INSERT INTO matingoffers(id,pet_id,description) VALUES (1,1, 'Pequeño y peludo');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (2,2,'Le gustan las pipas');
-INSERT INTO matingoffers(id,pet_id,description) VALUES (3,3,'Es muy serio');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (3,3,'Es muy seria');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (4,9, 'Huele a tabaco y berenjena');
-INSERT INTO matingoffers(id,pet_id,description) VALUES (5,4, 'Bombástico');
-INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'ven');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (5,4, 'Bombástica');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'Muy manso');

@@ -58,7 +58,7 @@ class MatingOfferControllerTests {
 	@Autowired
 	private MatingOfferController matingOfferController;
 	
-	@Autowired
+	@MockBean
 	private PetController petController;
 	
 	@MockBean
@@ -160,7 +160,6 @@ class MatingOfferControllerTests {
         @Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/new")
-							.with(csrf())
 							.param("name", "Mushku").param("description", "Grande y manso")
 							.with(csrf())
 							.param("date", "2020/01/09"))

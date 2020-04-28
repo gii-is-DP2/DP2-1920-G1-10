@@ -348,29 +348,9 @@
 						</executions>
 						<configuration>
 							<includes>
-								<include>**/CucumberUITest.java</include>
+								<include>**/UITest.java</include>
 							</includes>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>net.masterthought</groupId>
-						<artifactId>maven-cucumber-reporting</artifactId>
-						<version>3.8.0</version>
-						<executions>
-							<execution>
-								<id>post-integration-test</id>
-								<goals>
-									<goal>generate</goal>
-								</goals>
-								<configuration>
-									<projectName>${name}</projectName>
-									<outputDirectory>target</outputDirectory>
-									<cucumberOutput>target/cucumber-reports/cucumber-report.json</cucumberOutput>
-									<buildNumber>1</buildNumber>
-									<parallelTesting>false</parallelTesting>
-								</configuration>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
