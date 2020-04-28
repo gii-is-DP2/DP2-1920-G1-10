@@ -41,7 +41,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class PetService {
 
-	private PetRepository petRepository;
+	private static PetRepository petRepository;
 
 	private VisitRepository visitRepository;
 
@@ -68,7 +68,7 @@ public class PetService {
 	}
 
 	@Transactional(readOnly = true)
-	public Pet findPetById(int id) throws DataAccessException {
+	public static  Pet findPetById(int id) throws DataAccessException {
 		return petRepository.findById(id);
 	}
 

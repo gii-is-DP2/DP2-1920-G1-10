@@ -32,7 +32,7 @@
 	<br />
 	<h2>Citas:</h2>
 
-	<table class="table table-striped">
+	<table class="table table-striped" id="TablaCitas">
 		<c:forEach var="cita" items="${matingOffer.citas}">
 
 			<tr>
