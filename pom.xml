@@ -306,7 +306,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>**/*UITest.java</exclude>
 						<exclude>**/*APITest.java</exclude>
 					</excludes>
 				</configuration>
@@ -332,7 +331,7 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
-							<skipTests>true</skipTests>
+							<skipTests>false</skipTests>
 						</configuration>
 					</plugin>
 					<plugin>
