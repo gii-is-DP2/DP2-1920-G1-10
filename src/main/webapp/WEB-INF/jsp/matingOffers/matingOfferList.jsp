@@ -19,10 +19,7 @@
 				<th style="width: 150px;">Name</th>
 				<th style="width: 200px;">Description</th>
 				<th>Type</th>
-				<th>Date</th>
-				<sec:authorize access="hasAuthority('admin')">
 					<th>Actions</th>
-				</sec:authorize>
 
 			</tr>
 		</thead>
@@ -32,13 +29,10 @@
 					<td><c:out value="${matingOffer.pet.name}" /></td>
 					<td><c:out value="${matingOffer.description}" /></td>
 					<td><c:out value="${matingOffer.pet.type}" /></td>
-					<td><c:out value="${matingOffer.date}" /></td>
-					<sec:authorize access="hasAuthority('admin')">
 						<td><spring:url value="/matingOffers/delete/{matingOfferId}"
 								var="matingOfferUrl">
 								<spring:param name="matingOfferId" value="${matingOffer.id}" />
 							</spring:url> <a href="${fn:escapeXml(matingOfferUrl)}">Delete</a></td>
-					</sec:authorize>
 					 <td><spring:url value="pets/{petId}/matingOffers/{matingOfferId}"
                                 var="citatUrl">
                                 <spring:param name="petId" value="${pet.id}"/>
