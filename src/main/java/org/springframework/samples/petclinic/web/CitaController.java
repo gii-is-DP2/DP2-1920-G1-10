@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -30,114 +29,108 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 
 public class CitaController {
-  private static final String VIEWS_CITA_CREATE_OR_UPDATE_FORM = "citas/editCitas";
-  @Autowired
-  private CitaService citaservice;
-  @Autowired
-  private PetService petService;
-  @Autowired
-  private MatingOfferService matingOfferService;
+	@Autowired
+	private CitaService citaservice;
+	@Autowired
+	private PetService petService;
+	@Autowired
+	private MatingOfferService matingOfferService;
 
-  @RequestMapping("cita")
-  public Cita loadPetWithita(@PathVariable("petId") int petId) {
-    Pet pet = this.petService.findPetById(petId);
-    Cita cita = new Cita();
-    cita.setPet1(pet);
-    return cita;
-  }
+	@RequestMapping("cita")
+	public Cita loadPetWithita(@PathVariable("petId") int petId) {
+		Pet pet = this.petService.findPetById(petId);
+		Cita cita = new Cita();
+		cita.setPet1(pet);
+		return cita;
+	}
 
-  @GetMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
-  public String initNewVisitForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
-      ModelMap modelMap) {
+	@GetMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
+	public String initNewVisitForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
+			ModelMap modelMap) {
 
-    Cita cita = new Cita();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		String userId = principal.toString();
+		List<Pet> pets = petService.findPetbyOwnerId(userId);
+		List<Pet> aux = new ArrayList<Pet>();
+		for (int i = 0; i < pets.size(); i++) {
+			Pet p = pets.get(i);
+			if ((!(p.getGender().equals(PetService.findPetByIdStatic(petId).getGender())))
+					&& (p.getType().equals(PetService.findPetByIdStatic(petId).getType()))) {
+				aux.add(p);
+			}
+		}
+		MatingOffer met = matingOfferService.findMatById(matingOfferId);
+		String owner = met.getPet().getOwner().getUser().getUsername();
+		if (!owner.equals(userId)) {
+			modelMap.addAttribute("pets", aux);
+			modelMap.addAttribute("cita", new Cita());
+			return "citas/editCitas";
+		} else {
+			throw new AuthConfigException("No puede realizar citas consigo mismo");
+		}
 
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
-    String userId = principal.toString();
-    List<Pet> pets = petService.findPetbyOwnerId(userId);
-    List<Pet> aux = new ArrayList<Pet>();
-    for (int i = 0; i < pets.size(); i++) {
-      Pet p = pets.get(i);
-      if ((!(p.getGender().equals(PetService.findPetById(petId).getGender())))
-          && (p.getType().equals(PetService.findPetById(petId).getType()))) {
-        aux.add(p);
-      }
-    }
-      MatingOffer met = matingOfferService.findMatById(matingOfferId);
-      String owner = met.getPet().getOwner().getUser().getUsername();
-         if(!owner.equals(userId)) {
-          modelMap.addAttribute("pets", aux);
-         modelMap.addAttribute("cita", new Cita());
-         return "citas/editCitas";
-    } else {
-      throw new AuthConfigException("No puede realizar citas consigo mismo");
-    }
-    
-  }
+	}
 
-  @PostMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
-  public String processNewVisitForm(@Valid Cita cita, @PathVariable("petId") int petId,
-      @PathVariable("matingOfferId") int matingOfferId, BindingResult result)
-      throws DataAccessException, DuplicatedPetNameException {
-    if (result.hasErrors()) {
-      return "citas/editCitas";
-    } else {
-      MatingOffer met = matingOfferService.findMatById(petId);
-      Pet p = petService.findPetById(matingOfferId);
-      cita.setPet1(p);
-      this.citaservice.saveCita(cita);
-      met.getCitas().add(cita);
+	@PostMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
+	public String processNewVisitForm(@Valid Cita cita, @PathVariable("petId") int petId,
+			@PathVariable("matingOfferId") int matingOfferId, BindingResult result)
+			throws DataAccessException, DuplicatedPetNameException {
+		if (result.hasErrors()) {
+			return "citas/editCitas";
+		} else {
+			MatingOffer met = matingOfferService.findMatById(petId);
+			Pet p = petService.findPetById(matingOfferId);
+			cita.setPet1(p);
+			this.citaservice.saveCita(cita);
+			met.getCitas().add(cita);
+			this.matingOfferService.save(met);
 
-      int i = met.getId();
-      Set<Cita> citas = met.getCitas();
-      this.matingOfferService.save(met);
+			return "redirect:/matingOffers/";
+		}
+	}
 
-      return "redirect:/matingOffers/";
-    }
-  }
+	@GetMapping(path = "/matingOffers/{matingOfferId}/citas/delete/{citaId}")
+	private String borrarcita(@PathVariable("citaId") int citaId, @PathVariable("matingOfferId") int matingOfferId,
+			ModelMap modelMap) throws DataAccessException {
+		Cita cita = citaservice.findCitaById(citaId);
+		if (cita != null) {
+			citaservice.delete(cita);
 
-  @GetMapping(path = "/matingOffers/{matingOfferId}/citas/delete/{citaId}")
-  private String borrarcita(@PathVariable("citaId") int citaId, @PathVariable("matingOfferId") int matingOfferId,
-      ModelMap modelMap) throws DataAccessException {
-    Cita cita = citaservice.findCitaById(citaId);
-    if (cita != null) {
-      citaservice.delete(cita);
+			modelMap.addAttribute("message", "cita successfully delete");
 
-      modelMap.addAttribute("message", "cita successfully delete");
+		} else {
+			modelMap.addAttribute("message", "cita not found");
+		}
 
-    } else {
-      modelMap.addAttribute("message", "cita not found");
-    }
+		return "redirect:/matingOffers/";
+	}
 
-    return "redirect:/matingOffers/";
-  }
+	@GetMapping(value = "/pets/{petId}/citas/edit/{citaId}")
+	public String initUpdateForm(@PathVariable("citaId") int citaId, ModelMap model) {
+		Cita cita = this.citaservice.findCitaById(citaId);
+		model.put("cita", cita);
+		return "citas/editCitas";
+	}
 
-  @GetMapping(value = "/pets/{petId}/citas/edit/{citaId}")
-  public String initUpdateForm(@PathVariable("citaId") int citaId, ModelMap model) {
-    Cita cita = this.citaservice.findCitaById(citaId);
-    model.put("cita", cita);
-    return "citas/editCitas";
-  }
+	@PostMapping(value = "/pets/{petId}/citas/edit/{citaId}")
+	public String processUpdateForm(@Valid Cita cita, BindingResult result, Owner owner,
+			@PathVariable("petId") int petId, @PathVariable("citaId") int citaId, ModelMap model) {
 
-  @PostMapping(value = "/pets/{petId}/citas/edit/{citaId}")
-  public String processUpdateForm(@Valid Cita cita, BindingResult result, Owner owner,
-      @PathVariable("petId") int petId, @PathVariable("citaId") int citaId, ModelMap model) {
+		if (result.hasErrors()) {
+			return "citas/editCitas";
+		} else {
+			Cita citaUpdate = this.citaservice.findCitaById(citaId);
 
-    if (result.hasErrors()) {
-      return "citas/editCitas";
-    } else {
-      Cita citaUpdate = this.citaservice.findCitaById(citaId);
+			BeanUtils.copyProperties(cita, citaUpdate, "id", "pet1", "pet2", "dateTime", "place");
 
-      BeanUtils.copyProperties(cita, citaUpdate, "id", "pet1", "pet2", "dateTime", "place");
+			try {
 
-      try {
-
-        this.citaservice.saveCita(citaUpdate);
-      } catch (DuplicatedPetNameException ex) {
-        result.rejectValue("name", "duplicate", "already exists");
-        return "redirect:/matingOffers/";
-      }
-      return "redirect:/matingOffers/";
-    }
-  }
+				this.citaservice.saveCita(citaUpdate);
+			} catch (DuplicatedPetNameException ex) {
+				result.rejectValue("name", "duplicate", "already exists");
+				return "redirect:/matingOffers/";
+			}
+			return "redirect:/matingOffers/";
+		}
+	}
 }

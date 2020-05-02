@@ -38,9 +38,6 @@ class OwnerControllerTests {
 
 	private static final int TEST_OWNER_ID = 1;
 
-	@Autowired
-	private OwnerController ownerController;
-
 	@MockBean
 	private OwnerService clinicService;
 
@@ -55,7 +52,6 @@ class OwnerControllerTests {
 
 	private Owner george;
 
-	
 	@BeforeEach
 	void setup() {
 
@@ -67,7 +63,7 @@ class OwnerControllerTests {
 		george.setCity("Madison");
 		george.setTelephone("6085551023");
 		given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(george);
-		
+
 	}
 
 	@WithMockUser(value = "spring")
@@ -160,7 +156,7 @@ class OwnerControllerTests {
 				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowOwner() throws Exception {

@@ -35,7 +35,15 @@
 								value="${product.name}" /></a></td>
 					<td><c:out value="${product.description}" /></td>
 					<td><c:out value="${product.price}" /></td>
-					<td><c:out value="${product.stock}" /></td>
+					<td>
+						<c:if test="${product.stock == 0}">
+						<p style="color:red;">
+							<c:out value="${product.stock}"/></p>
+						</c:if>
+						<c:if test="${product.stock > 0}">
+							<c:out value="${product.stock}" />
+						</c:if>
+					</td>
 
 					<spring:url value="/bookings/new/{productId}" var="bookingUrl">
 						<spring:param name="productId" value="${product.id}" />

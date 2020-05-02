@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class NewProductUITest {
+public class ProductNewUITest {
 
 	@LocalServerPort
 	private int port;
@@ -60,7 +60,7 @@ public class NewProductUITest {
 		return res;
 	}
 
-	private NewProductUITest as(String username) {
+	private ProductNewUITest as(String username) {
 		this.username = username;
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
