@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.h2.security.auth.AuthConfigException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
@@ -41,7 +42,6 @@ public class MatingOfferController {
 
 		String view = "matingOffers/matingOfferList";
 		Iterable<MatingOffer> matingOffers = matingOfferService.findAll();
-		Iterable<MatingOffer> mine = new ArrayList<MatingOffer>();
 		modelMap.addAttribute("matingOffers", matingOffers);
 		return view;
 	}
@@ -99,12 +99,22 @@ public class MatingOfferController {
 	@GetMapping(path = "matingOffers/delete/{matingOfferId}")
 	private String deleteMatingOffer(@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) {
 		Optional<MatingOffer> matingOffer = matingOfferService.findMatingOfferById(matingOfferId);
+		
+		 MatingOffer met = matingOfferService.findMatById(matingOfferId);
+	    String owner = met.getPet().getOwner().getUser().getUsername();
+	    Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+	    String userId = principal.toString();
+
 		if (matingOffer.isPresent()) {
+			
+			if(owner.equals(userId)) {
 			matingOfferService.delete(matingOffer.get());
 			modelMap.addAttribute("message", "Mating offer successfully deleted");
-		} else {
+			}else{
+				throw new AuthConfigException("No puede borrar ofertas que no son suyas"); 
+		}}else {
 			modelMap.addAttribute("message", "Mating offer not found");
-		}
+			}
 		return matingOfferList(modelMap);
 	}
 
