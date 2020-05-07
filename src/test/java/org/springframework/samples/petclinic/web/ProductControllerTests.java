@@ -42,8 +42,8 @@ class ProductControllerTests {
 
 		product = new Product();
 		product.setId(TEST_PRODUCT_ID);
-		product.setName("Champú Para Perros");
-		product.setDescription("Champú para perros esencia de aloe");
+		product.setName("Champu Para Perros");
+		product.setDescription("Champu para perros esencia de aloe");
 		product.setPrice(9.6);
 		product.setStock(30);
 		product.setUrlImage(
@@ -91,9 +91,9 @@ class ProductControllerTests {
 	void testShowProduct() throws Exception {
 		mockMvc.perform(get("/products/{productId}", TEST_PRODUCT_ID))
 				.andExpect(status().isOk())
-				.andExpect(model().attribute("product", hasProperty("name", is("Champú Para Perros"))))
+				.andExpect(model().attribute("product", hasProperty("name", is("Champu Para Perros"))))
 				.andExpect(model().attribute("product",
-						hasProperty("description", is("Champú para perros esencia de aloe"))))
+						hasProperty("description", is("Champu para perros esencia de aloe"))))
 				.andExpect(model().attribute("product", hasProperty("price", is(9.6))))
 				.andExpect(model().attribute("product", hasProperty("stock", is(30))))
 				.andExpect(model().attribute("product", hasProperty("urlImage", is(
