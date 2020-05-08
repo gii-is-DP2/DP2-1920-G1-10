@@ -30,9 +30,6 @@ public class MatingOffer extends NamedEntity{
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet1", fetch = FetchType.EAGER)
 	private Set<Cita> citas;
-	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate date;
 
 	public Pet getPet() {
 		return pet;
@@ -50,16 +47,6 @@ public class MatingOffer extends NamedEntity{
 		this.description = description;
 	}
 
-	
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
 	public Set<Cita> getCitas() {
 		return citas;
 	}
@@ -67,6 +54,4 @@ public class MatingOffer extends NamedEntity{
 	public void setCitas(Set<Cita> cita) {
 		this.citas = citas;
 	}
-	
-	
 }

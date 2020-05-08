@@ -13,6 +13,11 @@ public interface MatingOfferRepository extends CrudRepository<MatingOffer, Integ
 
 	@Query("SELECT mt FROM MatingOffer mt where mt.id =?1")
 	MatingOffer findByMatId(int matId) throws DataAccessException;
+	
 	@Query("SELECT mt FROM MatingOffer mt join mt.pet  p where p.id =?1")
 	List<MatingOffer> findByMatPetId(int petId) throws DataAccessException;
+	
+	@Query("SELECT mt FROM MatingOffer mt where mt.description =?1")
+	MatingOffer findMatByDescription(String matDescription) throws DataAccessException;
+	
 }

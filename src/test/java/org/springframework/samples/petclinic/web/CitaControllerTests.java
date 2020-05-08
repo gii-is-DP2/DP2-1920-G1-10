@@ -77,7 +77,6 @@ class CitaControllerTests {
 		h.setName("prueba");
 		h.setType(cat);
 		MatingOffer mat = new MatingOffer();
-		mat.setDate(LocalDate.now().minusDays(2));
 		mat.setDescription("description");
 		mat.setId(1);
 		mat.setName("name");

@@ -18,11 +18,6 @@
 			<th>Description</th>
 			<td><c:out value="${matingOffer.description}" /></td>
 		</tr>
-
-		<tr>
-			<th>Date</th>
-			<td><c:out value="${matingOffer.date}" /></td>
-		</tr>
 	</table>
 
 
