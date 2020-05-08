@@ -11,7 +11,7 @@
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
 <petclinic:layout pageName="products">
-	<h2 id = "listadoProductos">List of Products</h2>
+	<h2 id="listadoProductos">List of Products</h2>
 
 	<table id="productsTable" class="table table-striped">
 		<thead>
@@ -21,9 +21,9 @@
 				<th>Price</th>
 				<th>Stock</th>
 				<th>Book</th>
-				<%--<sec:authorize access="hasAuthority('admin')">--%>
-				<th>Delete</th>
-				<%--</sec:authorize>--%>
+				<sec:authorize access="hasAuthority('admin')">
+					<th>Delete</th>
+				</sec:authorize>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,19 +42,19 @@
 					</spring:url>
 					<td><a href="${fn:escapeXml(bookingUrl)}">Book</a></td>
 
-					<%--<sec:authorize access="hasAuthority('admin')">--> --%>
-					<td><spring:url value="/products/delete/{productId}"
-							var="productUrl">
-							<spring:param name="productId" value="${product.id}" />
-						</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
-					<%--</sec:authorize> --%>
+					<sec:authorize access="hasAuthority('admin')">
+						<td><spring:url value="/products/delete/{productId}"
+								var="productUrl">
+								<spring:param name="productId" value="${product.id}" />
+							</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
+					</sec:authorize>
 
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<%--<sec:authorize access="hasAuthority('admin')">--> --%>
-	<a href="/products/new">New Product</a>
-	<%--</sec:authorize> --%>
+	<sec:authorize access="hasAuthority('admin')">
+		<a href="/products/new">New Product</a>
+	</sec:authorize>
 
 </petclinic:layout>

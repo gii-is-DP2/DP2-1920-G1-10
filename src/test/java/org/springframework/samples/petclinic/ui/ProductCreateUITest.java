@@ -23,13 +23,13 @@ import io.cucumber.java.en.Then;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeleteProductUITest {
+public class ProductCreateUITest {
 
 	@LocalServerPort
 	private int port;
 
 	private int productosAlInicio;
-	private String nombreProducto = "Champú Para Perros";
+	private String nombreProducto = "Comida para perros";
 	private String textoError = "Something happened...";
 
 	private String username;
@@ -47,12 +47,12 @@ public class DeleteProductUITest {
 	}
 
 	@Test
-	public void testDeleteProductAsAdmin() throws Exception {
-		as("admin1").elProductoEliminadoNoSeEncuentraEnLaTabla();
+	public void testNewProductAsAdmin() throws Exception {
+		as("admin1").elNuevoProductoSeEncuentraEnLaTabla();
 	}
 
 	@Test
-	public void testDeleteProductAsOwner() throws Exception {
+	public void testNewProductAsOwner() throws Exception {
 		as("owner1").paginaDeError();
 	}
 
@@ -64,7 +64,7 @@ public class DeleteProductUITest {
 		return res;
 	}
 
-	private DeleteProductUITest as(String username) {
+	private ProductCreateUITest as(String username) {
 		this.username = username;
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -75,7 +75,22 @@ public class DeleteProductUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
 		productosAlInicio = contarProductos();
-	    driver.findElement(By.xpath("//a[contains(text(),'Delete')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/products/new')]")).click();
+		if (username.equals("admin1")) {
+			driver.findElement(By.id("name")).click();
+			driver.findElement(By.id("name")).clear();
+			driver.findElement(By.id("name")).sendKeys(nombreProducto);
+			driver.findElement(By.id("description")).clear();
+			driver.findElement(By.id("description")).sendKeys("Nutrientes necesarios para tu mascota");
+			driver.findElement(By.id("price")).clear();
+			driver.findElement(By.id("price")).sendKeys("15");
+			driver.findElement(By.id("stock")).clear();
+			driver.findElement(By.id("stock")).sendKeys("30");
+			driver.findElement(By.id("urlImage")).clear();
+			driver.findElement(By.id("urlImage"))
+					.sendKeys("https://www.tupienso.com/image/data/satisfaction/satisfaction-adult-medium.jpg");
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
+		}
 		return this;
 	}
 
@@ -94,10 +109,10 @@ public class DeleteProductUITest {
 		return filasDetablaProductos.size() - 1;
 	}
 
-	@Then("El producto seleccionado se elimina")
-	public void elProductoEliminadoNoSeEncuentraEnLaTabla() {
-		assertTrue(contarProductos() < productosAlInicio);
-		assertTrue(!driver.findElement(By.xpath("//table[@id='productsTable']")).getText().contains(nombreProducto));
+	@Then("El nuevo producto se añade al resto")
+	public void elNuevoProductoSeEncuentraEnLaTabla() {
+		assertTrue(contarProductos() > productosAlInicio);
+		assertTrue(driver.findElement(By.xpath("//table[@id='productsTable']")).getText().contains(nombreProducto));
 	}
 
 	@Then("Soy redireccionado a la página de error")
