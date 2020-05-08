@@ -51,4 +51,10 @@ public class BookingService {
 		this.reservaRepo.delete(booking);
 
 	}
+	@Transactional
+	public Booking findPreviousBooking(final int productId) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		String userId = principal.toString();
+		return this.reservaRepo.findPreviousBooking(userId, productId);
+	}
 }

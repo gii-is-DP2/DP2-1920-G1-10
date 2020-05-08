@@ -11,4 +11,6 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
 	@Query("SELECT a FROM Booking a WHERE a.user=:usernameid")
 	Iterable<Booking> findAllByUserId(@Param("usernameid") String userId);
 
+	@Query("SELECT a FROM Booking a WHERE a.user=:usernameid AND a.producto.id=:productid")
+	Booking findPreviousBooking(@Param("usernameid") String userId, @Param("productid") int productId);
 }
