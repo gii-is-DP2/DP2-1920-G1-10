@@ -44,7 +44,8 @@ class ProductServiceTests {
 	@Test
 	void shouldFindProductWithCorrectId() {
 		Product p1 = this.productService.findProductById(1);
-		assertThat(p1.getName()).startsWith("Champu Para Perros");
+		String nombre = p1.getName();
+		assertThat(nombre).startsWith("Champu Para Perros");
 		assertThat(p1.getDescription().startsWith("Champu"));
 		assertEquals(p1.getPrice(), 9.6);
 		assertEquals(p1.getStock(), 30);

@@ -19,8 +19,19 @@ public class ProductRepositoryTests {
 	@Autowired
 	private ProductRepository productRepository;
 
+	//Positivo
+	
 	@Test
 	void shouldFindProductById() {
+		int id = 1;
+		Product p = this.productRepository.findById(id);
+		assertEquals(p.getName(), "Champu Para Perros");
+	}
+	
+	//Negativo
+	
+	@Test
+	void shouldNotFindProductById() {
 		int id = 1;
 		Product p = this.productRepository.findById(id);
 		assertEquals(p.getName(), "Champu Para Perros");
