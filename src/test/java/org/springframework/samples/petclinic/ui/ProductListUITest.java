@@ -1,10 +1,9 @@
 package org.springframework.samples.petclinic.ui;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,24 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import io.cucumber.java.en.Then;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeleteProductUITest {
+public class ProductListUITest {
 
 	@LocalServerPort
 	private int port;
-
-	private int productosAlInicio;
-	private String nombreProducto = "Champú Para Perros";
-	private String textoError = "Something happened...";
 
 	private String username;
 	private WebDriver driver;
@@ -39,32 +31,28 @@ public class DeleteProductUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
-		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+		//String pathToGeckoDriver = "C:\\Users\\felix\\Documents";
+		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		driver = new FirefoxDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testDeleteProductAsAdmin() throws Exception {
-		as("admin1").elProductoEliminadoNoSeEncuentraEnLaTabla();
+	public void testListAsLoggedIn() throws Exception {
+		as("owner1").listadoDeProductos();
 	}
-
+	
 	@Test
-	public void testDeleteProductAsOwner() throws Exception {
-		as("owner1").paginaDeError();
+	public void testListAsNotLoggedIn() throws Exception {
+		asNotLogged().inLogIn();
 	}
 
 	private CharSequence passwordOf(String username) {
-		CharSequence res = "4dm1n";
-		if (username.equals("owner1")) {
-			res = "0wn3r";
-		}
-		return res;
+		return "0wn3r";
 	}
 
-	private DeleteProductUITest as(String username) {
+	private ProductListUITest as(String username) {
 		this.username = username;
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -74,9 +62,21 @@ public class DeleteProductUITest {
 		driver.findElement(By.id("username")).sendKeys(username);
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
-		productosAlInicio = contarProductos();
-	    driver.findElement(By.xpath("//a[contains(text(),'Delete')]")).click();
 		return this;
+	}
+
+	private ProductListUITest asNotLogged() {
+		driver.get("http://localhost:" + port);
+		driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
+		return this;
+	}
+	
+	private void listadoDeProductos() {
+		assertEquals("List of Products", driver.findElement(By.xpath("//h2[@id='listadoProductos']")).getText());
+	}
+	
+	private void inLogIn() {
+	    assertEquals("Sign in", driver.findElement(By.xpath("//button[@type='submit']")).getText());
 	}
 
 	@AfterEach
@@ -88,20 +88,4 @@ public class DeleteProductUITest {
 		}
 	}
 
-	private int contarProductos() {
-		WebElement tablaProductos = driver.findElement(By.xpath("//table[@id='productsTable']"));
-		List<WebElement> filasDetablaProductos = tablaProductos.findElements(By.tagName("tr"));
-		return filasDetablaProductos.size() - 1;
-	}
-
-	@Then("El producto seleccionado se elimina")
-	public void elProductoEliminadoNoSeEncuentraEnLaTabla() {
-		assertTrue(contarProductos() < productosAlInicio);
-		assertTrue(!driver.findElement(By.xpath("//table[@id='productsTable']")).getText().contains(nombreProducto));
-	}
-
-	@Then("Soy redireccionado a la página de error")
-	private void paginaDeError() {
-		assertEquals(driver.findElement(By.xpath("//h2[@id='oops']")).getText(), textoError);
-	}
 }
