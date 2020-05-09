@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 
 public class CitaController {
+
   private static final String VIEWS_CITA_CREATE_OR_UPDATE_FORM = "citas/editCitas";
   @Autowired
   private CitaService citaservice;
@@ -138,6 +139,7 @@ public class CitaController {
         return "redirect:/matingOffers/";
       }
       return "redirect:/matingOffers/";
+
     }
   }
 }

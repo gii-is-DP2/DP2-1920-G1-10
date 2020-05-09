@@ -9,6 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +25,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.MatingOffer;
 import org.springframework.samples.petclinic.model.Owner;
@@ -50,7 +55,7 @@ class CitaControllerTests {
 	private CitaController citaController;
 
 	@MockBean
-	private PetService clinicService;
+	private PetService petService;
 
 	@MockBean
 	private CitaService citaService;
@@ -63,31 +68,67 @@ class CitaControllerTests {
 
 	@BeforeEach
 	void setup() {
+		User us = new User();
+		us.setUsername("username");
+		us.setPassword("contraseña");
+		us.setEnabled(true);
+		
+		Owner o = new Owner();
+		o.setUser(us);
+		o.setAddress("calle");
+		o.setCity("sevilla");
+		o.setFirstName("pepe");
+		o.setLastName("hoola");
+		o.setTelephone("654987321");
+		o.setId(99);
+		
+		
 		PetType cat = new PetType();
 		cat.setId(3);
-		cat.setName("hamster");
+		cat.setName("dog");
 	
 		
 		
-		
+		Gender g = new Gender();
+		g.setId(3);
+		g.setName("dog");
 		Pet h = new Pet();
-		h.setGender(new Gender());
-		
+		h.setGender(g);
+		h.setBirthDate(LocalDate.now());
+		h.setMatingOffers(new HashSet<MatingOffer>());
+		h.setCitas_pet1(new HashSet<Cita>());
+		h.setCitas_pet2(new HashSet<Cita>());
 		h.setId(1);
 		h.setName("prueba");
 		h.setType(cat);
+		h.setOwner(o);
+	Cita c = new Cita();
+	c.setId(99);
+	c.setPet1(h);
+	c.setPet2(h);
+	c.setPlace("hola");
+	c.setStatus("pending");
+	c.setDate(LocalDate.now());
+
+	
 		MatingOffer mat = new MatingOffer();
 		mat.setDescription("description");
 		mat.setId(1);
 		mat.setName("name");
 		mat.setPet(h);
+		mat.setCitas(new HashSet<Cita>());
+		Set<Cita> cs = mat.getCitas();
+		
+		
+		
+		
 		
 
-		given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(h);
+		given(this.petService.findPetById(TEST_PET_ID)).willReturn(h);
 		given(this.matingOfferService.findMatById(TEST_MAT_ID)).willReturn(mat);
 
 	}
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
 	void testInitNewVisitForm() throws Exception {
 		mockMvc.perform(get("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID))
@@ -95,27 +136,28 @@ class CitaControllerTests {
 	}
 
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
-				.param("Pet2.id", "1")
+				.param("Pet2.id", "15")
 				.param("status", "pending")
 				.param("place", "hola")
+				.param("id", "22")
 				.param("dateTime", "2020/04/30"))
-		        .andExpect(status().isOk())
-				.andExpect(view().name("matingOffers/matingOffersList"));
+		        .andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/matingOffers/"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
 	void testProcessNewVisitFormHasErrors() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
-				.param("Pet2.id", "1")
+				
 				.param("status", "pending")
 				.param("place", "hola")
 				.param("dateTime", "2020/04/30"))		        
-				.andExpect(status().isOk()).andExpect(view().name("pet/createOrUpdateVisitForm"));
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/matingOffers/"));
 	}
 
 	

@@ -38,6 +38,7 @@ public class CitaService {
 
 	@Transactional
 	public Collection<Cita> findCitaByPet(int petId) {
+		
 		return citaRepository.findByPet(petId);
 	}
 

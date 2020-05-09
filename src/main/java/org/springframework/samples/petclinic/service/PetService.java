@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -47,7 +46,7 @@ public class PetService {
 
 	@Autowired
 	public PetService(PetRepository petRepository, VisitRepository visitRepository) {
-		this.petRepository = petRepository;
+		PetService.petRepository = petRepository;
 		this.visitRepository = visitRepository;
 	}
 
@@ -69,6 +68,11 @@ public class PetService {
 
 	@Transactional(readOnly = true)
 	public static Pet findPetById(int id) throws DataAccessException {
+		return petRepository.findById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public static Pet findPetByIdStatic(int id) throws DataAccessException {
 		return petRepository.findById(id);
 	}
 

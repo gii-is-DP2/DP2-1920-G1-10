@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -52,6 +53,6 @@ public class MatingOffer extends NamedEntity{
 	}
 
 	public void setCitas(Set<Cita> cita) {
-		this.citas = citas;
+		this.citas = cita;
 	}
 }
