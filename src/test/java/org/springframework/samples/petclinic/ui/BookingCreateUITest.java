@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.ui;
 
 import java.util.concurrent.TimeUnit;
