@@ -15,6 +15,10 @@
 			<td><b><c:out value="${matingOffer.pet.name}" /></b></td>
 		</tr>
 		<tr>
+			<th>Owner</th>
+			<td><b><c:out value="${matingOffer.pet.owner.user.username}" /></b></td>
+		</tr>
+		<tr>
 			<th>Description</th>
 			<td><c:out value="${matingOffer.description}" /></td>
 		</tr>

@@ -47,32 +47,31 @@ public class CitaController {
 		return cita;
 	}
 	@GetMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
-	  public String initNewVisitForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
-	      ModelMap modelMap) {
+	public String initNewVisitForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
+			ModelMap modelMap) {
 
-	    Cita cita = new Cita();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		String userId = principal.toString();
+		List<Pet> pets = petService.findPetbyOwnerId(userId);
+		List<Pet> aux = new ArrayList<Pet>();
+		for (int i = 0; i < pets.size(); i++) {
+			Pet p = pets.get(i);
+			if ((!(p.getGender().equals(PetService.findPetByIdStatic(petId).getGender())))
+					&& (p.getType().equals(PetService.findPetByIdStatic(petId).getType()))) {
+				aux.add(p);
+			}
+		}
+		MatingOffer met = matingOfferService.findMatById(matingOfferId);
+		String owner = met.getPet().getOwner().getUser().getUsername();
+		if (!owner.equals(userId)) {
+			modelMap.addAttribute("pets", aux);
+			modelMap.addAttribute("cita", new Cita());
+			return "citas/editCitas";
+		} else {
+			throw new AuthConfigException("No puede realizar citas consigo mismo");
+		}
 
-	    Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
-	    String userId = principal.toString();
-	    List<Pet> pets = petService.findPetbyOwnerId(userId);
-	    List<Pet> aux = new ArrayList<Pet>();
-	    for (int i = 0; i < pets.size(); i++) {
-	      Pet p = pets.get(i);
-	      if ((!(p.getGender().equals(PetService.findPetById(petId).getGender())))
-	          && (p.getType().equals(PetService.findPetById(petId).getType()))) {
-	        aux.add(p);
-	      }
-	    }
-	      MatingOffer met = matingOfferService.findMatById(matingOfferId);
-	      String owner = met.getPet().getOwner().getUser().getUsername();
-	         if(!owner.equals(userId)) {
-	          modelMap.addAttribute("pets", aux);
-	         modelMap.addAttribute("cita", new Cita());
-	         return "citas/editCitas";
-	    } else {
-	      throw new AuthConfigException("No puede realizar citas consigo mismo");
-	    }
-	    }
+	}
 
 	@PostMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
 	public String processNewVisitForm(@Valid Cita cita, @PathVariable("petId") int petId,@PathVariable("matingOfferId") int matingOfferId,BindingResult result) throws DataAccessException, DuplicatedPetNameException {
@@ -84,6 +83,7 @@ public class CitaController {
 			Pet p = petService.findPetById(matingOfferId);
 			cita.setPet1(p);
 			this.citaservice.saveCita(cita);
+			Set<Cita> citaas = met.getCitas();
 			met.getCitas().add(cita);
 			
 			
