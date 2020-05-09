@@ -1,49 +1,52 @@
 
 package org.springframework.samples.petclinic.ui;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingCreateUITest {
 
-	private WebDriver		driver;
-	private String			baseUrl;
-	private boolean			acceptNextAlert		= true;
-	private StringBuffer	verificationErrors	= new StringBuffer();
+	@LocalServerPort
+	private int port;
 
+	private WebDriver driver;
+	private String baseUrl;
+	private boolean acceptNextAlert = true;
+	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\ftgon\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
-
-		driver = new ChromeDriver();
+		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
+		driver = new FirefoxDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
 	public void crearBookingTestCase() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		driver.findElement(By.id("password")).sendKeys("practica");
 		driver.findElement(By.id("username")).clear();
 		driver.findElement(By.id("username")).sendKeys("prueba1");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/bookings')]")).click();
 		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li/a/span[2]")).click();
 		driver.findElement(By.linkText("Book")).click();
 		driver.findElement(By.id("numProductos")).click();
@@ -52,7 +55,8 @@ public class BookingCreateUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
 		try {
-			Assert.assertEquals("Champú Para Perros", this.driver.findElement(By.linkText("Champú Para Perros")).getText());
+			Assert.assertEquals("Champú Para Perros",
+					this.driver.findElement(By.linkText("Champú Para Perros")).getText());
 		} catch (Error e) {
 			this.verificationErrors.append(e.toString());
 		}
@@ -60,7 +64,7 @@ public class BookingCreateUITest {
 
 	@Test
 	public void FalloCantidadSuperiorTestCase() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		driver.findElement(By.id("password")).sendKeys("practica");
@@ -85,7 +89,7 @@ public class BookingCreateUITest {
 
 	@Test
 	public void ListaBookingSinLoginTestCase() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
 		try {
 			Assert.assertEquals("Please sign in", driver.findElement(By.xpath("//h2")).getText());
