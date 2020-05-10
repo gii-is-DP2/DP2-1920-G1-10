@@ -89,7 +89,7 @@ INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (3, 'Ben
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (4, 'Funda Para Cama De Perro','Características de la Funda para cama de perro o animal domestico:Alto: 7 cm ± 1 cm.',19.0,45,'https://ventadecolchones.com/7890-large_default/funda-para-cama-de-perro.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (5, 'Kong Puppy S','Diseñado para introducir comida en el interior y la mascota se entretenga sacándola',4.49,60,'https://static.miscota.com/media/1/photos/products/146981/146981_1_g.jpeg');
 
-INSERT INTO matingoffers(id,pet_id,description) VALUES (1,1, 'Pequeño y peludo');
+INSERT INTO matingoffers(id,pet_id,description) VALUES (1,1, 'Chico y peludo');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (2,2,'Le gustan las pipas');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (3,3,'Es muy seria');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (4,9, 'Huele a tabaco y berenjena');
