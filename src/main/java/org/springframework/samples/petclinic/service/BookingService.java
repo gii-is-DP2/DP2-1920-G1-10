@@ -57,4 +57,9 @@ public class BookingService {
 		String userId = principal.toString();
 		return this.reservaRepo.findPreviousBooking(userId, productId);
 	}
+	@Transactional
+	public Booking findById(final int bookingId) {
+		return this.reservaRepo.findBookingById(bookingId);
+	}
+
 }

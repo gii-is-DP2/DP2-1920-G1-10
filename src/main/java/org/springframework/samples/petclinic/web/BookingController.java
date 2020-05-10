@@ -41,7 +41,7 @@ public class BookingController {
 	}
 
 	@GetMapping(path = "/new/{productId}")
-	private String salvarReserva(@PathVariable("productId") final int productId, final ModelMap modelMap) {
+	public String salvarReserva(@PathVariable("productId") final int productId, final ModelMap modelMap) {
 		System.out.println(productId);
 		String view = "bookings/editBooking";
 		LocalDate date = LocalDate.now();
@@ -60,7 +60,7 @@ public class BookingController {
 	}
 
 	@PostMapping(path = "/save")
-	private String salvarReserva(@Valid final Booking booking, @RequestParam final int id, final BindingResult res, final ModelMap modelMap) {
+	public String salvarReserva(@Valid final Booking booking, @RequestParam final int id, final BindingResult res, final ModelMap modelMap) {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		String userId = principal.toString();
@@ -93,7 +93,7 @@ public class BookingController {
 	}
 
 	@GetMapping(path = "delete/{bookingId}")
-	private String borrarProducto(@PathVariable("bookingId") final int bookingId, final ModelMap modelMap) {
+	public String borrarReserva(@PathVariable("bookingId") final int bookingId, final ModelMap modelMap) {
 		Optional<Booking> booking = this.reservaService.findBookingById(bookingId);
 		if (booking.isPresent()) {
 			Product p = booking.get().getProducto();
