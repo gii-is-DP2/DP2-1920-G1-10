@@ -116,5 +116,12 @@ class ProductControllerTests {
 				.andExpect(model().attributeExists("products"))
 				.andExpect(view().name("products/productList"));
 	}
+	
+	@WithMockUser(username = "prueba", authorities = {"prueba"})
+	@Test
+	void testShouldNotDeleteProductSuccess() throws Exception {
+		mockMvc.perform(get("/products/delete/" + TEST_PRODUCT_ID)).andExpect(status().isOk())
+				.andExpect(view().name("exception"));
+	}
 
 }

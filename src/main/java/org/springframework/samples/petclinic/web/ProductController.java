@@ -31,7 +31,7 @@ public class ProductController {
 	}
 
 	@GetMapping(path = "/new")
-	private String initCreationForm(ModelMap modelMap) {
+	public String initCreationForm(Product product, ModelMap modelMap) {
 		if (AuthoritiesService.checkAdmin() != true) {
 			throw new AuthConfigException("Debe ser administrador");
 		}
@@ -41,7 +41,7 @@ public class ProductController {
 	}
 
 	@PostMapping(path = "/save")
-	private String processCreationForm(@Valid Product product, BindingResult res, ModelMap modelMap) {
+	public String processCreationForm(@Valid Product product, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("product", product);
 			return "products/editProduct";
@@ -61,7 +61,7 @@ public class ProductController {
 	}
 
 	@GetMapping(path = "delete/{productId}")
-	private String borrarProducto(@PathVariable("productId") int productId, ModelMap modelMap) {
+	public String borrarProducto(@PathVariable("productId") int productId, ModelMap modelMap) {
 		Product product = productService.findProductById(productId);
 		if (AuthoritiesService.checkAdmin() != true) {
 			throw new AuthConfigException("Debe ser administrador");
