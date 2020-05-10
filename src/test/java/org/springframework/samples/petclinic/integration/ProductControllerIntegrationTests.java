@@ -17,26 +17,19 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductControllerIntegrationTests {
 
 	private static final int TEST_PRODUCT_ID = 1;
+	private static final int TEST_PRODUCT_ID_2 = 2;
 
 	@Autowired
 	private ProductController productController;
 	@Autowired
 	private ProductService productService;
-
-	@Test
-	@WithMockUser(username = "admin", authorities = { "admin" })
-	void testInitUpdateForm() throws Exception {
-		ModelMap model = new ModelMap();
-		String view = productController.initCreationForm(productService.findProductById(TEST_PRODUCT_ID), model);
-		assertEquals(view, "products/editProduct");
-		assertNotNull(model.get("product"));
-	}
 
 	@Test
 	@WithMockUser(username = "admin", authorities = { "admin" })
@@ -72,11 +65,23 @@ public class ProductControllerIntegrationTests {
 		assertEquals(view, "products/productList");
 	}
 
+//	@Test
+//	@WithMockUser(username = "prueba", authorities = { "prueba" })
+//	void testShouldNotDeleteProductSuccess() throws Exception {
+//		ModelMap model = new ModelMap();
+//		Product product = productService.findProductById(TEST_PRODUCT_ID);
+//		assertNotNull(product);
+//		String view = productController.borrarProducto(TEST_PRODUCT_ID, model);
+//		assertEquals(view, "exception");
+//	}
+
 	@Test
-	@WithMockUser(username = "prueba", authorities = { "prueba" })
-	void testShouldNotDeleteProductSuccess() throws Exception {
-		Product product = productService.findProductById(TEST_PRODUCT_ID);
+	@WithMockUser(username = "admin", authorities = { "admin" })
+	void testShowProduct() throws Exception {
+		Product product = productService.findProductById(TEST_PRODUCT_ID_2);
 		assertNotNull(product);
-//		assertEquals(productController.borrarProducto(TEST_PRODUCT_ID, model), "exception");
+		ModelAndView view = productController.showProduct(TEST_PRODUCT_ID);
+		assertEquals(view.getViewName(), "products/productDetails");
 	}
+
 }
