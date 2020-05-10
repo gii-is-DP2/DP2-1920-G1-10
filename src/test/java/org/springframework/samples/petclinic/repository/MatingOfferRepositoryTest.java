@@ -32,7 +32,7 @@ public class MatingOfferRepositoryTest {
 	void testFindByMatPetId() {
 		int id=1;
 		List<MatingOffer> matingOffers = this.matingOfferRepository.findByMatPetId(id);
-		assertEquals("Chico y peludo", matingOffers.get(1).getDescription());
+		assertEquals("Chico y peludo", matingOffers.get(0).getDescription());
 	}
 	
 	@Test
