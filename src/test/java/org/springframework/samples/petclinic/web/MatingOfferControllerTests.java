@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,6 +31,7 @@ import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 /**
  * Test class for {@link MatingOfferController}
@@ -94,14 +97,30 @@ class MatingOfferControllerTests {
 				.andExpect(view().name("matingOffers/matingOfferList"));
 	}
 	
-	@WithMockUser(username = "prueba", password = "prueba", authorities = "owner")
+	@WithMockUser(username = "prueba", password = "prueba", authorities = {"owner"})
+	@Test
+	void testShowMatingOffer() throws Exception {
+		mockMvc.perform(get("/pets/1/matingOffers/1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("matingOffers/matingOfferDetails"));				
+	}
+
+	
+	@WithMockUser(username = "prueba", password = "prueba", authorities = {"owner"})
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/matingOffers/save").with(csrf())
-				.param("description", ""))
+				.param("description", "descripcion ejemplo"))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("description"))
-				.andExpect(model().attributeHasFieldErrors("matingOffer", "description"))
+				.andExpect(model().attributeHasFieldErrors("description", "pet"))
 				.andExpect(view().name("matingOffers/createMatingOfferForm"));
+	}
+	
+	@WithMockUser(username = "admin1", password = "4dm1n", authorities = {"admin"})
+	@Test
+	void testDeleteMatingOfferSuccess() throws Exception {
+		mockMvc.perform(get("/matingOffers/delete/" + TEST_MATING_OFFER_ID)).andExpect(status().isOk())
+				.andExpect(view().name("matingOffers/matingOfferList"));
 	}
 }

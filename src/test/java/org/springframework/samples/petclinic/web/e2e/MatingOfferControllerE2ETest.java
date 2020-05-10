@@ -41,7 +41,7 @@ public class MatingOfferControllerE2ETest {
 	@WithMockUser(username="admin1",authorities= {"admin"})
     @Test
     void testProcessNewMatingOfferFormSuccess() throws Exception {
-		mockMvc.perform(post("/matingOffers", TEST_MATING_OFFER_ID).with(csrf())
+		mockMvc.perform(get("/matingOffers", TEST_MATING_OFFER_ID).with(csrf())
 				.param("p1.id", "15")
 				.param("description", "New Offer Success"))
 		        .andExpect(status().isOk())

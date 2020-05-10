@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.security.Provider.Service;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
@@ -15,10 +14,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.MatingOffer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@AutoConfigureTestDatabase(replace=Replace.NONE)
-public class MatingOfferTests {
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+public class MatingOfferServiceTests {
 
 	@Autowired
 	protected MatingOfferService matingOfferService;
