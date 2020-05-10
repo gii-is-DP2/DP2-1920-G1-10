@@ -29,7 +29,7 @@ class ProductServiceTests {
 
 	@Test
 	void shouldFindProductWithCorrectId() {
-		Product p1 = this.productService.findProductById(2);
+		Product p1 = this.productService.findProductById(3);
 		assertNotNull(p1);
 		assertThat(p1.getName().startsWith("Arnes Challenger Roca"));
 	}
@@ -39,7 +39,7 @@ class ProductServiceTests {
 	void shouldDeleteProduct() {
 		Collection<Product> products = (Collection<Product>) productService.findAll();
 		int tamAntes = products.size() - 1;
-		productService.delete(productService.findProductById(1));
+		productService.delete(productService.findProductById(2));
 		Collection<Product> productsAfter = (Collection<Product>) productService.findAll();
 		int tamDespues = productsAfter.size() - 1;
 		assertTrue(tamDespues != tamAntes);
