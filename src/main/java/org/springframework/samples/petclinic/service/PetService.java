@@ -67,7 +67,7 @@ public class PetService {
 	}
 
 	@Transactional(readOnly = true)
-	public static Pet findPetById(int id) throws DataAccessException {
+	public  Pet findPetById(int id) throws DataAccessException {
 		return petRepository.findById(id);
 	}
 	
