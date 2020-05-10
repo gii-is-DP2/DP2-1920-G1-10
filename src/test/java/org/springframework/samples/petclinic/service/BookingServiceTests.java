@@ -1,13 +1,16 @@
 
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collection;
+
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -19,16 +22,17 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@TestMethodOrder(OrderAnnotation.class)
 class BookingServiceTests {
 
 	@Autowired
 	protected BookingService bookingService;
 
-
 	// Positivo
 
 	@Test
 	@WithMockUser(username = "prueba1", password = "practica")
+	@Order(1) 
 	void shouldFindBookingWithCorrectId() {
 		Booking b = this.bookingService.findBookingById(1).get();
 		String nombre = b.getProducto().getName();
@@ -39,6 +43,7 @@ class BookingServiceTests {
 
 	@Test
 	@WithMockUser(username = "prueba1", password = "practica")
+	@Order(3)
 	void shouldDeleteProduct() {
 		Collection<Booking> bookings = (Collection<Booking>) bookingService.findAll();
 		int tamAntes = bookings.size() - 1;
@@ -52,6 +57,7 @@ class BookingServiceTests {
 
 	@Test
 	@WithMockUser(username = "prueba1", password = "practica")
+	@Order(2)
 	void shouldNotFindProductWithCorrectId() {
 		Booking b = this.bookingService.findBookingById(1).get();
 		assertTrue(!b.getUser().contains("Comida"));

@@ -1,5 +1,5 @@
 
-package org.springframework.samples.petclinic.integration;
+package org.springframework.samples.petclinic.web.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

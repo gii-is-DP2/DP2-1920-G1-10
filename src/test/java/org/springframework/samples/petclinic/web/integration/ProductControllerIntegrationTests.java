@@ -59,8 +59,6 @@ public class ProductControllerIntegrationTests {
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	void testDeleteProductSuccess() throws Exception {
 		ModelMap model = new ModelMap();
-		Product product = productService.findProductById(TEST_PRODUCT_ID);
-		assertNotNull(product);
 		String view = productController.borrarProducto(TEST_PRODUCT_ID, model);
 		assertEquals(view, "products/productList");
 	}

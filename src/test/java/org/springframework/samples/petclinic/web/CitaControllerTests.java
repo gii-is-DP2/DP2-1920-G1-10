@@ -4,23 +4,17 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -37,11 +31,10 @@ import org.springframework.samples.petclinic.service.MatingOfferService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Test class for {@link VisitController}
+ * Test class for {@link CitaController}
  *
  * @author Colin But
  */
@@ -130,7 +123,7 @@ class CitaControllerTests {
 	}
 	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
-	void testInitNewVisitForm() throws Exception {
+	void testInitNewCitaForm() throws Exception {
 		mockMvc.perform(get("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID))
 				.andExpect(status().isOk()).andExpect(view().name("citas/editCitas"));
 	}
@@ -138,7 +131,7 @@ class CitaControllerTests {
 
 	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
-	void testProcessNewVisitFormSuccess() throws Exception {
+	void testProcessNewCitaFormSuccess() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
 				.param("Pet2.id", "15")
 				.param("status", "pending")
@@ -151,7 +144,7 @@ class CitaControllerTests {
 
 	@WithMockUser(username = "prueba", password = "prueba")
 	@Test
-	void testProcessNewVisitFormHasErrors() throws Exception {
+	void testProcessNewCitaFormHasErrors() throws Exception {
 		mockMvc.perform(post("/pets/{petId}/matingOffers/{matingOfferId}/citas/new", TEST_PET_ID, TEST_MAT_ID).with(csrf())
 				
 				.param("status", "pending")

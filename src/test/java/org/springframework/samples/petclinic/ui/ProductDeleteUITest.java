@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.ui;
 
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class ProductDeleteUITest {
 	private int port;
 
 	private int productosAlInicio;
-	private String nombreProducto = "Champú Para Perros";
+	private String nombreProducto = "Champu Para Perros";
 	private String textoError = "Something happened...";
 
 	private String username;
