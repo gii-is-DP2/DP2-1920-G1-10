@@ -48,7 +48,7 @@ public class CitaController {
   }
 
   @GetMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
-  public String initNewVisitForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
+  public String initNewCitaForm(@PathVariable("petId") int petId, @PathVariable("matingOfferId") int matingOfferId,
       ModelMap modelMap) {
 
     Cita cita = new Cita();
@@ -59,8 +59,8 @@ public class CitaController {
     List<Pet> aux = new ArrayList<Pet>();
     for (int i = 0; i < pets.size(); i++) {
       Pet p = pets.get(i);
-      if ((!(p.getGender().equals(PetService.findPetById(petId).getGender())))
-          && (p.getType().equals(PetService.findPetById(petId).getType()))) {
+      if ((!(p.getGender().equals(PetService.findPetByIdStatic(petId).getGender())))
+          && (p.getType().equals(PetService.findPetByIdStatic(petId).getType()))) {
         aux.add(p);
       }
     }
@@ -77,7 +77,7 @@ public class CitaController {
   }
 
   @PostMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/new")
-  public String processNewVisitForm(@Valid Cita cita, @PathVariable("petId") int petId,
+  public String processNewCitaForm(@Valid Cita cita, @PathVariable("petId") int petId,
       @PathVariable("matingOfferId") int matingOfferId, BindingResult result)
       throws DataAccessException, DuplicatedPetNameException {
     if (result.hasErrors()) {
@@ -142,4 +142,6 @@ public class CitaController {
 
     }
   }
+
+
 }
