@@ -68,7 +68,7 @@ public class MatingOfferController {
 	}
 
 	@PostMapping(value = "matingOffers/new")
-	public String processNewVisitForm(@Valid MatingOffer matingOffer, BindingResult result)
+	public String processNewMatingOfferForm(@Valid MatingOffer matingOffer, BindingResult result)
 			throws DataAccessException, DuplicatedPetNameException {
 //		if(matingOffer.getDate().isBefore(LocalDate.now())){
 //			 
@@ -98,7 +98,7 @@ public class MatingOfferController {
 	}
 
 	@GetMapping(path = "matingOffers/delete/{matingOfferId}")
-	private String deleteMatingOffer(@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) {
+	public String deleteMatingOffer(@PathVariable("matingOfferId") int matingOfferId, ModelMap modelMap) {
 		Optional<MatingOffer> matingOffer = matingOfferService.findMatingOfferById(matingOfferId);
 		
 		 MatingOffer met = matingOfferService.findMatById(matingOfferId);
@@ -112,7 +112,7 @@ public class MatingOfferController {
 			matingOfferService.delete(matingOffer.get());
 			modelMap.addAttribute("message", "Mating offer successfully deleted");
 			}else{
-				throw new AuthConfigException("No puede borrar ofertas que no son suyas"); 
+				throw new AuthConfigException("No puede borrar ofertas que no son suyas");
 		}}else {
 			modelMap.addAttribute("message", "Mating offer not found");
 			}
