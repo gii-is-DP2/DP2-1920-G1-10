@@ -87,10 +87,21 @@ class MatingOfferControllerTests {
 	@WithMockUser(username = "prueba", password = "prueba", authorities = {"owner"})
 	@Test
 	void testProcessNewMatingOfferFormSuccess() throws Exception {
-		mockMvc.perform(post("/matingOffers", TEST_MATING_OFFER_ID).with(csrf())
+		mockMvc.perform(get("/matingOffers", TEST_MATING_OFFER_ID).with(csrf())
 				.param("p1.id", "15")
 				.param("description", "New Offer Success"))
 		        .andExpect(status().isOk())
-				.andExpect(view().name("/matingOffers"));
+				.andExpect(view().name("matingOffers/matingOfferList"));
+	}
+	
+	@WithMockUser(username = "prueba", password = "prueba", authorities = "owner")
+	@Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		mockMvc.perform(post("/matingOffers/save").with(csrf())
+				.param("description", ""))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("description"))
+				.andExpect(model().attributeHasFieldErrors("matingOffer", "description"))
+				.andExpect(view().name("matingOffers/createMatingOfferForm"));
 	}
 }
