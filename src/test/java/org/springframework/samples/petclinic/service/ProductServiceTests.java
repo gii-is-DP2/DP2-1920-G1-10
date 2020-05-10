@@ -16,8 +16,9 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
@@ -43,11 +44,9 @@ class ProductServiceTests {
 
 	@Test
 	void shouldFindProductWithCorrectId() {
-		Product p1 = this.productService.findProductById(1);
-		assertThat(p1.getName()).startsWith("Champu Para Perros");
-		assertThat(p1.getDescription().startsWith("Champu"));
-		assertEquals(p1.getPrice(), 9.6);
-		assertEquals(p1.getStock(), 30);
+		Product p1 = this.productService.findProductById(2);
+		assertNotNull(p1);
+		assertThat(p1.getName().startsWith("Arnes Challenger Roca"));
 	}
 
 	@Test
@@ -65,11 +64,8 @@ class ProductServiceTests {
 
 	@Test
 	void shouldNotFindProductWithCorrectId() {
-		Product p1 = this.productService.findProductById(1);
-		assertTrue(!p1.getName().contains("Comida"));
-		assertThat(!p1.getDescription().contains("Para Mascotas"));
-		assertNotEquals(p1.getPrice(), 10.0);
-		assertNotEquals(p1.getStock(), 11);
+		Product p1 = this.productService.findProductById(500);
+		assertNull(p1);
 	}
 
 }

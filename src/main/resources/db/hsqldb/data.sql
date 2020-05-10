@@ -84,7 +84,7 @@ INSERT INTO citas(id,pet1_id,pet2_id,cita_date,place) VALUES (1,1,2, '2010-09-07
 
 
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (1, 'Champú Para Perros','Champú para perros esencia de aloe',9.60,30,'https://d22ysdvc6gwinl.cloudfront.net/4165-thickbox_default/champu-biotina-para-perros-menforsan.jpg');
-INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (2, 'Arnés Challenger Roca','Diseñado para trabajos verticales y en altura',138.25,20,'https://www.ttrinternational.com/tienda/wp-content/uploads/2017/07/20612-arnes-roca-challenger.jpg');
+INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (2, 'Arnes Challenger Roca','Diseñado para trabajos verticales y en altura',138.25,20,'https://www.ttrinternational.com/tienda/wp-content/uploads/2017/07/20612-arnes-roca-challenger.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (3, 'Benevo Para Gatos y Perros','Lata de comida vegana y saludable para gatos y perros',4.29,200,'https://images1.tiendanimal.es/g/7166-benevo-duo-alimento-humedo-vegano-vegetariano-perro-gato.jp.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (4, 'Funda Para Cama De Perro','Características de la Funda para cama de perro o animal domestico:Alto: 7 cm ± 1 cm.',19.0,45,'https://ventadecolchones.com/7890-large_default/funda-para-cama-de-perro.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (5, 'Kong Puppy S','Diseñado para introducir comida en el interior y la mascota se entretenga sacándola',4.49,60,'https://static.miscota.com/media/1/photos/products/146981/146981_1_g.jpeg');
