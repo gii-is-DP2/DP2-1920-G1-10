@@ -34,7 +34,7 @@ class BookingServiceTests {
 	@WithMockUser(username = "prueba1", password = "practica")
 	@Order(1) 
 	void shouldFindBookingWithCorrectId() {
-		Booking b = this.bookingService.findBookingById(1).get();
+		Booking b = this.bookingService.findById(1);
 		String nombre = b.getProducto().getName();
 		assertThat(nombre).startsWith("Champu Para Perros");
 		assertThat(b.getNumProductos().equals(4));
@@ -47,7 +47,7 @@ class BookingServiceTests {
 	void shouldDeleteProduct() {
 		Collection<Booking> bookings = (Collection<Booking>) bookingService.findAll();
 		int tamAntes = bookings.size() - 1;
-		bookingService.delete(bookingService.findBookingById(1).get());
+		bookingService.delete(bookingService.findById(1));
 		Collection<Booking> bookingsAfter = (Collection<Booking>) bookingService.findAll();
 		int tamDespues = bookingsAfter.size() - 1;
 		assertTrue(tamDespues != tamAntes);
@@ -59,7 +59,7 @@ class BookingServiceTests {
 	@WithMockUser(username = "prueba1", password = "practica")
 	@Order(2)
 	void shouldNotFindProductWithCorrectId() {
-		Booking b = this.bookingService.findBookingById(1).get();
+		Booking b = this.bookingService.findById(1);
 		assertTrue(!b.getUser().contains("Comida"));
 		assertThat(!b.getProducto().getDescription().contains("Para Mascotas"));
 		assertNotEquals(b.getNumProductos(), 42);
