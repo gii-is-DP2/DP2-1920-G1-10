@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -44,7 +46,8 @@ public class MatingOfferService {
 
 	@Transactional
 	public void delete(MatingOffer matingOffer) {
-		matingOfferRepo.delete(matingOffer);
+		matingOffer.getPet().getMatingOffers().remove(matingOffer);
+		matingOfferRepo.deleteById(matingOffer.getId());
 	}
 
 	public Optional<MatingOffer> findMatingOfferById(Integer id) {
@@ -57,5 +60,9 @@ public class MatingOfferService {
 
 	public Optional<MatingOffer> findMatingOfferById(int matingOfferId) {
 		return matingOfferRepo.findById(matingOfferId);
+	}
+	
+	public  List<MatingOffer> findByMatPetId(int petId) {
+		return matingOfferRepo.findByMatPetId(petId);
 	}
 }

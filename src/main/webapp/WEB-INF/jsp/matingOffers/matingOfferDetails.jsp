@@ -15,13 +15,12 @@
 			<td><b><c:out value="${matingOffer.pet.name}" /></b></td>
 		</tr>
 		<tr>
+			<th>Owner</th>
+			<td><b><c:out value="${matingOffer.pet.owner.user.username}" /></b></td>
+		</tr>
+		<tr>
 			<th>Description</th>
 			<td><c:out value="${matingOffer.description}" /></td>
-		</tr>
-
-		<tr>
-			<th>Date</th>
-			<td><c:out value="${matingOffer.date}" /></td>
 		</tr>
 	</table>
 
@@ -32,7 +31,7 @@
 	<br />
 	<h2>Citas:</h2>
 
-	<table class="table table-striped">
+	<table class="table table-striped" id="TablaCitas">
 		<c:forEach var="cita" items="${matingOffer.citas}">
 
 			<tr>

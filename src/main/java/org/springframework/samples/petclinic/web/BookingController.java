@@ -26,10 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BookingController {
 
 	@Autowired
-	private BookingService reservaService;
+	private BookingService	reservaService;
 
 	@Autowired
-	public ProductService productService;
+	public ProductService	productService;
+
 
 	@GetMapping()
 	private String listadoReserva(final ModelMap modelMap) {
@@ -40,7 +41,7 @@ public class BookingController {
 	}
 
 	@GetMapping(path = "/new/{productId}")
-	private String salvarReserva(@PathVariable("productId") final int productId, final ModelMap modelMap) {
+	public String salvarReserva(@PathVariable("productId") final int productId, final ModelMap modelMap) {
 		System.out.println(productId);
 		String view = "bookings/editBooking";
 		LocalDate date = LocalDate.now();
@@ -59,8 +60,7 @@ public class BookingController {
 	}
 
 	@PostMapping(path = "/save")
-	private String salvarReserva(@Valid final Booking booking, @RequestParam final int id, final BindingResult res,
-			final ModelMap modelMap) {
+	public String salvarReserva(@Valid final Booking booking, @RequestParam final int id, final BindingResult res, final ModelMap modelMap) {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		String userId = principal.toString();
@@ -69,22 +69,36 @@ public class BookingController {
 			modelMap.addAttribute("booking", booking);
 
 			return "bookings/editBooking";
-		} else if (booking.getNumProductos() < 0) {
+		} else if (booking.getNumProductos() < 0 || booking.getNumProductos() > this.productService.findProductById(id).getStock()) {
 			throw new IllegalArgumentException("Fallo");
 		} else {
 			booking.setProducto(this.productService.findProductById(id));
 			booking.setFecha(LocalDate.now());
 			booking.setUser(userId);
+
+			Product p = this.productService.findProductById(id);
+
+			Booking prev = this.reservaService.findPreviousBooking(id);
+			if (prev != null) {
+				p.setStock(p.getStock() + prev.getNumProductos());
+				this.reservaService.delete(prev);
+			}
+
 			this.reservaService.save(booking);
 			modelMap.addAttribute("message", "Saved successfully");
+			p.setStock(p.getStock() - booking.getNumProductos());
+			this.productService.save(p);
 		}
 		return this.listadoReserva(modelMap);
 	}
 
 	@GetMapping(path = "delete/{bookingId}")
-	private String borrarProducto(@PathVariable("bookingId") final int bookingId, final ModelMap modelMap) {
+	public String borrarReserva(@PathVariable("bookingId") final int bookingId, final ModelMap modelMap) {
 		Optional<Booking> booking = this.reservaService.findBookingById(bookingId);
 		if (booking.isPresent()) {
+			Product p = booking.get().getProducto();
+			p.setStock(p.getStock() + booking.get().getNumProductos());
+			this.productService.save(p);
 			this.reservaService.delete(booking.get());
 			modelMap.addAttribute("message", "Product successfully deleted");
 		} else {

@@ -24,12 +24,6 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-/**
- * Test class for {@link ProductController}
- *
- * @author Colin But
- */
-
 @WebMvcTest(controllers = ProductController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class ProductControllerTests {
 
@@ -48,8 +42,8 @@ class ProductControllerTests {
 
 		product = new Product();
 		product.setId(TEST_PRODUCT_ID);
-		product.setName("Champú Para Perros");
-		product.setDescription("Champú para perros esencia de aloe");
+		product.setName("Champu Para Perros");
+		product.setDescription("Champu para perros esencia de aloe");
 		product.setPrice(9.6);
 		product.setStock(30);
 		product.setUrlImage(
@@ -58,26 +52,35 @@ class ProductControllerTests {
 
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "admin", authorities = {"admin"})
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/products/new")).andExpect(status().isOk()).andExpect(model().attributeExists("product"))
+		mockMvc.perform(get("/products/new"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("product"))
 				.andExpect(view().name("products/editProduct"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/products/save").param("name", "test1").param("description", "test1").with(csrf())
-				.param("urlImage", "123 Caramel Street")).andExpect(status().isOk());
+		mockMvc.perform(post("/products/save")
+				.param("name", "Comida para perros")
+				.param("description", "Nutrientes necesarios para tu mascota").with(csrf())
+				.param("urlImage", "https://www.tupienso.com/image/data/satisfaction/satisfaction-adult-medium.jpg"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("products/editProduct"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/products/save").with(csrf()).param("name", "test1").param("description", "test1")
-				.param("urlImage", "test1")).andExpect(status().isOk())
+		mockMvc.perform(post("/products/save").with(csrf())
+				.param("name", "product")
+				.param("description", "just some errors"))
+				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("product"))
+				.andExpect(model().attributeHasFieldErrors("product", "urlImage"))
 				.andExpect(model().attributeHasFieldErrors("product", "stock"))
 				.andExpect(model().attributeHasFieldErrors("product", "price"))
 				.andExpect(view().name("products/editProduct"));
@@ -86,10 +89,11 @@ class ProductControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowProduct() throws Exception {
-		mockMvc.perform(get("/products/{productId}", TEST_PRODUCT_ID)).andExpect(status().isOk())
-				.andExpect(model().attribute("product", hasProperty("name", is("Champú Para Perros"))))
+		mockMvc.perform(get("/products/{productId}", TEST_PRODUCT_ID))
+				.andExpect(status().isOk())
+				.andExpect(model().attribute("product", hasProperty("name", is("Champu Para Perros"))))
 				.andExpect(model().attribute("product",
-						hasProperty("description", is("Champú para perros esencia de aloe"))))
+						hasProperty("description", is("Champu para perros esencia de aloe"))))
 				.andExpect(model().attribute("product", hasProperty("price", is(9.6))))
 				.andExpect(model().attribute("product", hasProperty("stock", is(30))))
 				.andExpect(model().attribute("product", hasProperty("urlImage", is(
@@ -100,20 +104,24 @@ class ProductControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowProductListHtml() throws Exception {
-		mockMvc.perform(get("/products"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/products")).andExpect(status().isOk())
 				.andExpect(model().attributeExists("products"))
 				.andExpect(view().name("products/productList"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "admin", authorities = {"admin"})
 	@Test
 	void testDeleteProductSuccess() throws Exception {
-		mockMvc.perform(get("/products/delete/" + TEST_PRODUCT_ID))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/products/delete/" + TEST_PRODUCT_ID)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("products"))
 				.andExpect(view().name("products/productList"));
 	}
-
 	
+	@WithMockUser(username = "prueba", authorities = {"prueba"})
+	@Test
+	void testShouldNotDeleteProductSuccess() throws Exception {
+		mockMvc.perform(get("/products/delete/" + TEST_PRODUCT_ID)).andExpect(status().isOk())
+				.andExpect(view().name("exception"));
+	}
+
 }
