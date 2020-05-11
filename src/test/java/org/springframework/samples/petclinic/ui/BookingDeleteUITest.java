@@ -1,8 +1,9 @@
 
 package org.springframework.samples.petclinic.ui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -15,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -22,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BookingCreateUITest {
+public class BookingDeleteUITest {
 
 	@LocalServerPort
 	private int				port;
@@ -42,7 +44,7 @@ public class BookingCreateUITest {
 	}
 
 	@Test
-	public void crearBookingTestCase() throws Exception {
+	public void borrarBookingTestCase() throws Exception {
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
@@ -50,37 +52,21 @@ public class BookingCreateUITest {
 		driver.findElement(By.id("username")).clear();
 		driver.findElement(By.id("username")).sendKeys("prueba1");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li/a/span[2]")).click();
-		driver.findElement(By.linkText("Book")).click();
-		driver.findElement(By.id("numProductos")).click();
-		driver.findElement(By.id("numProductos")).clear();
-		driver.findElement(By.id("numProductos")).sendKeys("4");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
-		try {
-			Assert.assertEquals("Champu Para Perros", this.driver.findElement(By.linkText("Champu Para Perros")).getText());
-		} catch (Error e) {
-			this.verificationErrors.append(e.toString());
-		}
+		int before = contarBookings();
+		driver.findElement(By.linkText("Delete")).click();
+		assertNotEquals(before, contarBookings());
 	}
 
 	@Test
-	public void FalloCantidadSuperiorTestCase() throws Exception {
+	public void borrarBookingSinLoginTestCase() throws Exception {
 		driver.get("http://localhost:" + port);
-		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
-		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys("prueba1");
-		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys("practica");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li/a/span[2]")).click();
-		driver.findElement(By.linkText("Book")).click();
-		driver.findElement(By.id("numProductos")).click();
-		driver.findElement(By.id("numProductos")).clear();
-		driver.findElement(By.id("numProductos")).sendKeys("40");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		assertEquals("Something happened...", driver.findElement(By.id("oops")).getText());
-
+		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
+		try {
+			Assert.assertEquals("Please sign in", driver.findElement(By.xpath("//h2")).getText());
+		} catch (Error e) {
+			verificationErrors.append(e.toString());
+		}
 	}
 
 	@AfterEach
@@ -123,5 +109,11 @@ public class BookingCreateUITest {
 		} finally {
 			this.acceptNextAlert = true;
 		}
+	}
+	private int contarBookings() {
+		WebElement tablaBookings = driver.findElement(By.xpath("//table[@id='bookingsTable']"));
+
+		List<WebElement> filasDetablaBookings = tablaBookings.findElements(By.tagName("tr"));
+		return filasDetablaBookings.size() - 1;
 	}
 }
