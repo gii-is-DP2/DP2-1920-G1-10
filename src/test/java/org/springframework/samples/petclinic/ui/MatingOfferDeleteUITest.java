@@ -4,26 +4,19 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import io.cucumber.java.en.Then;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -95,12 +88,10 @@ public class MatingOfferDeleteUITest {
     }
   }
 
-	@Then("La oferta está eliminada")
 	public void laOfertaEstaEliminada() {
 		assertTrue(!driver.findElement(By.xpath("//table[@id='matingOffersTable']")).getText().contains(nombreOferta));
 	}
 
-	@Then("Soy redireccionado a la página de error")
 	private void paginaDeError() {
 		assertEquals(driver.findElement(By.xpath("//h2[@id='oops']")).getText(), textoError);
 	}
