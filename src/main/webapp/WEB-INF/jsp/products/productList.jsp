@@ -21,6 +21,7 @@
 				<th>Price</th>
 				<th>Stock</th>
 				<th>Book</th>
+				<th>Comment</th>
 				<sec:authorize access="hasAuthority('admin')">
 					<th>Delete</th>
 				</sec:authorize>
@@ -53,6 +54,12 @@
 							<a href="${fn:escapeXml(bookingUrl)}">Book</a>
 						</c:if>
 						</td>
+					<spring:url value="/comments/new/{productId}" var="commentUrl">
+						<spring:param name="productId" value="${product.id}" />
+					</spring:url>	
+					<td>
+					<a href="${fn:escapeXml(commentUrl)}">Comment</a>
+					</td>	
 
 					<sec:authorize access="hasAuthority('admin')">
 						<td><spring:url value="/products/delete/{productId}"

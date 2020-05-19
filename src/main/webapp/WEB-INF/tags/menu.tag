@@ -40,6 +40,12 @@
 					<span class="" aria-hidden="true"></span>
 					<span>Mating offers</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'comments'}" url="/comments"
+					title="list of comments">
+					<span class="" aria-hidden="true"></span>
+					<span>Comments</span>
+				</petclinic:menuItem>
 
 
 			</ul>
