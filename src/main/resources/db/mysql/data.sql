@@ -97,5 +97,3 @@ INSERT INTO matingoffers(id,pet_id,description) VALUES (5,4, 'Bombástica');
 INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'Muy manso');
 
 INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (1,1,4,'prueba1','2013-01-01');
-INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (2,2,5,'prueba1','2013-01-03');
-INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (3,3,10,'prueba1','2013-01-02');

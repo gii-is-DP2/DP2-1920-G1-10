@@ -29,7 +29,7 @@ public class BookingRepositoryTests {
 	@Test
 	void shouldFindBookingById() {
 		int id = 1;
-		Booking b = this.bookingRepository.findById(id).get();
+		Booking b = this.bookingRepository.findBookingById(id);
 		Assertions.assertEquals(b.getProducto().getName(), "Champu Para Perros");
 	}
 
@@ -46,7 +46,7 @@ public class BookingRepositoryTests {
 	void shouldFindBookingsByUserId() {
 		String id = "prueba1";
 		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
-		Assertions.assertEquals(b.size(), 3);
+		Assertions.assertEquals(b.size(), 1);
 	}
 	@Test
 	void shouldNotFindBookingsByUserId() {
