@@ -97,30 +97,20 @@ class MatingOfferControllerTests {
 				.andExpect(view().name("matingOffers/matingOfferList"));
 	}
 	
-	@WithMockUser(username = "prueba", password = "prueba", authorities = {"owner"})
-	@Test
-	void testShowMatingOffer() throws Exception {
-		mockMvc.perform(get("/pets/1/matingOffers/1"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("matingOffers/matingOfferDetails"));				
-	}
-
-	
-	@WithMockUser(username = "prueba", password = "prueba", authorities = {"owner"})
+	@WithMockUser(username = "admin1", password = "4dm1n", authorities = {"admin"})
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/matingOffers/save").with(csrf())
-				.param("description", "descripcion ejemplo"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("description"))
-				.andExpect(model().attributeHasFieldErrors("description", "pet"))
-				.andExpect(view().name("matingOffers/createMatingOfferForm"));
+		mockMvc.perform(post("/matingOffers/new").with(csrf())
+				.param("prueba", "descripcion ejemplo"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/matingOffers"));
 	}
 	
 	@WithMockUser(username = "admin1", password = "4dm1n", authorities = {"admin"})
 	@Test
-	void testDeleteMatingOfferSuccess() throws Exception {
-		mockMvc.perform(get("/matingOffers/delete/" + TEST_MATING_OFFER_ID)).andExpect(status().isOk())
-				.andExpect(view().name("matingOffers/matingOfferList"));
+	void testDeleteMatingOfferFailed() throws Exception {
+		mockMvc.perform(get("/matingOffers/delete/{matingOfferId}", TEST_MATING_OFFER_ID))
+				.andExpect(status().isOk())
+				.andExpect(view().name("exception"));
 	}
 }

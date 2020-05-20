@@ -46,7 +46,7 @@ public class BookingRepositoryTests {
 	void shouldFindBookingsByUserId() {
 		String id = "prueba1";
 		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
-		Assertions.assertEquals(b.size(), 1);
+		Assertions.assertEquals(b.size(), 3);
 	}
 	@Test
 	void shouldNotFindBookingsByUserId() {
