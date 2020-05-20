@@ -21,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@ContextConfiguration(classes = { PetclinicApplication.class })
 class ProductServiceTests {
 
 	@Autowired
