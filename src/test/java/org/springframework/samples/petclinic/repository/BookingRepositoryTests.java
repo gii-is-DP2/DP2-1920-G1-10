@@ -47,32 +47,15 @@ public class BookingRepositoryTests {
 		Optional<Booking> b = this.bookingRepository.findById(id);
 		Assertions.assertNotEquals(b.get().getProducto().getName(), "Champu para perros");
 	}
-
 	@Test
 	@Order(3)
-	void shouldFindBookingsByUserId() {
-		String id = "prueba1";
-		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
-		Assertions.assertEquals(b.size(), 1);
-	}
-	
-	@Test
-	@Order(4)
 	void shouldNotFindBookingsByUserId() {
 		String id = "noExisto";
 		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
 		Assertions.assertTrue(b.isEmpty());
 	}
 	@Test
-	@Order(5)
-	void shouldFindPreviousBooking() {
-		String user = "prueba1";
-		int id = 1;
-		Booking b = this.bookingRepository.findPreviousBooking(user, id);
-		Assertions.assertEquals(b.getProducto().getId(), 1);
-	}
-	@Test
-	@Order(6)
+	@Order(4)
 	void shouldNotFindPreviousBooking() {
 		String user = "prueba1";
 		int id = 4;
