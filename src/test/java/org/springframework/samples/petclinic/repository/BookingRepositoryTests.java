@@ -34,7 +34,7 @@ public class BookingRepositoryTests {
 	@Order(1)
 	void shouldFindBookingById() {
 		int id = 1;
-		Booking b = this.bookingRepository.findById(id).get();
+		Booking b = this.bookingRepository.findBookingById(id);
 		Assertions.assertEquals(b.getProducto().getName(), "Champu Para Perros");
 	}
 
