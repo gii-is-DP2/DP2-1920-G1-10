@@ -27,26 +27,22 @@ public class BookingRepositoryTests {
 	@Autowired
 	private BookingRepository bookingRepository;
 
-
-	//Positivo
-
 	@Test
 	@Order(1)
-	void shouldFindBookingById() {
-		int id = 1;
-		Booking b = this.bookingRepository.findBookingById(id);
-		Assertions.assertEquals(b.getProducto().getName(), "Champu Para Perros");
-	}
-
-	//Negativo
-
-	@Test
-	@Order(2)
 	void shouldNotFindBookingById() {
 		int id = 3;
 		Optional<Booking> b = this.bookingRepository.findById(id);
 		Assertions.assertNotEquals(b.get().getProducto().getName(), "Champu para perros");
 	}
+
+	@Test
+	@Order(2)
+	void shouldFindBookingsByUserId() {
+		String id = "prueba1";
+		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
+		Assertions.assertEquals(b.size(), 1);
+	}
+	
 	@Test
 	@Order(3)
 	void shouldNotFindBookingsByUserId() {
