@@ -42,7 +42,6 @@ class CitaControllerE2ETest {
 				.andExpect(status().isOk()).andExpect(view().name("citas/editCitas"));
 	}
 
-
 	@WithMockUser(username = "prueba", password = "prueba" ,authorities = { "owner" })
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
@@ -66,7 +65,5 @@ class CitaControllerE2ETest {
 				.param("dateTime", "2020/04/30"))		        
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/matingOffers/"));
 	}
-
-	
 
 }
