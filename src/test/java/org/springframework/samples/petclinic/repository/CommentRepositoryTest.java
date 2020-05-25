@@ -28,20 +28,20 @@ public class CommentRepositoryTest {
 		Comment comment = this.commentRepository.findCommentById(id);
 		assertEquals("pepefer@gmail.com", comment.getEmail());
 	}
+
 	@Test
 	void findAllByUserId() {
 		String id = "prueba1";
 		Iterable<Comment> comment = this.commentRepository.findAllByUserId(id);
-		List<Comment> res  = (List<Comment>) comment;
+		List<Comment> res = (List<Comment>) comment;
 		assertEquals(1, res.size());
 	}
+
 	@Test
 	void findAllByProductId() {
 		int id = 1;
 		List<Comment> comment = this.commentRepository.findAllByProductId(id);
-		
+
 		assertEquals(1, comment.size());
 	}
-	
-
 }
