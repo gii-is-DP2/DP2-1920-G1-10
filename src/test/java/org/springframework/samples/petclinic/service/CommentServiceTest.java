@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
@@ -61,5 +62,19 @@ public class CommentServiceTest {
 		int tamDespues = commentsAfter.size() - 1;
 		assertTrue(tamDespues != tamAntes);
 	}
-
+	@Test
+	void shouldFindCommentIdFail() {
+		
+		Comment comment = commentService.findCommentById(0);
+		assertNull(comment);
+	}
+//	@Test
+//	void shouldDeleteCommentFail() {
+//		Collection<Comment> com = (Collection<Comment>) commentService.findAll();
+//		int tamAntes = com.size() - 1;
+//		commentService.delete(commentService.findCommentById(0));
+//		Collection<Comment> commentsAfter = (Collection<Comment>) commentService.findAll();
+//		int tamDespues = commentsAfter.size() - 1;
+//		assertTrue(tamDespues == tamAntes);
+//	}
 }

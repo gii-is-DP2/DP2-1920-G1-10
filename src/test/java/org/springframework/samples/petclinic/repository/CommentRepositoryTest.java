@@ -42,6 +42,17 @@ public class CommentRepositoryTest {
 		
 		assertEquals(1, comment.size());
 	}
-	
-
+	@Test
+	void findAllByProductIdFail() {
+		int id = 0;
+		List<Comment> comment = this.commentRepository.findAllByProductId(id);
+		
+		assertEquals(0, comment.size());
+	}
+	@Test
+	void shouldFindCommentIdFail() {
+		int id = 0;
+		Comment comment = this.commentRepository.findCommentById(id);
+		assertEquals(comment, null);
+	}
 }
