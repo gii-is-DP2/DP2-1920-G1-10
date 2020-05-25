@@ -29,7 +29,7 @@ public class CommentService {
 
 	@Transactional(readOnly = true)
 	public Comment findCommentById(final int id) throws DataAccessException {
-		return commentRepository.findById(id).get();
+		return commentRepository.findCommentById(id);
 	}
 	@Transactional
 	public Iterable<Comment> findAllByProductId(final Product product) {
