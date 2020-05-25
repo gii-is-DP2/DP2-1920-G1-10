@@ -83,6 +83,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 INSERT INTO citas(id,pet1_id,pet2_id,cita_date,place) VALUES (1,1,2, '2010-09-07','calle');
 
 
+
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (1, 'Champu Para Perros','Champu para perros esencia de aloe',9.60,30,'https://d22ysdvc6gwinl.cloudfront.net/4165-thickbox_default/champu-biotina-para-perros-menforsan.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (2, 'Arnés Challenger Roca','Diseñado para trabajos verticales y en altura',138.25,20,'https://www.ttrinternational.com/tienda/wp-content/uploads/2017/07/20612-arnes-roca-challenger.jpg');
 INSERT INTO PRODUCT(id,name, description, price,stock,url_image) VALUES (3, 'Benevo Para Gatos y Perros','Lata de comida vegana y saludable para gatos y perros',4.29,200,'https://images1.tiendanimal.es/g/7166-benevo-duo-alimento-humedo-vegano-vegetariano-perro-gato.jp.jpg');
@@ -99,3 +100,5 @@ INSERT INTO matingoffers(id,pet_id,description) VALUES (6,14, 'Muy manso');
 INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (1,1,4,'prueba1','2013-01-01');
 INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (2,2,5,'prueba1','2013-01-03');
 INSERT INTO bookings(id,product_id,num_productos,user_id,fecha) VALUES (3,3,10,'prueba1','2013-01-02');
+
+INSERT INTO comments(id,product_id,email,descripcion,user_id,fecha) VALUES (1,1,'pepefer@gmail.com','descripcion','prueba1','2010-09-07');
