@@ -14,9 +14,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Booking;
 import org.springframework.samples.petclinic.repository.springdatajpa.BookingRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@Transactional
 public class BookingRepositoryTests {
 
 	@Autowired
@@ -31,6 +33,21 @@ public class BookingRepositoryTests {
 		Assertions.assertEquals(b.getProducto().getName(), "Champu Para Perros");
 	}
 
+	@Test
+	void shouldFindBookingsByUserId() {
+		String id = "prueba1";
+		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
+		Assertions.assertEquals(b.size(), 3);
+	}
+
+	@Test
+	void shouldFindPreviousBooking() {
+		String user = "prueba1";
+		int id = 1;
+		Booking b = this.bookingRepository.findPreviousBooking(user, id);
+		Assertions.assertEquals(b.getProducto().getId(), 1);
+	}
+
 	// Negativo
 
 	@Test
@@ -41,25 +58,10 @@ public class BookingRepositoryTests {
 	}
 
 	@Test
-	void shouldFindBookingsByUserId() {
-		String id = "prueba1";
-		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
-		Assertions.assertEquals(b.size(), 3);
-	}
-
-	@Test
 	void shouldNotFindBookingsByUserId() {
 		String id = "prueba";
 		Collection<Booking> b = (Collection<Booking>) this.bookingRepository.findAllByUserId(id);
 		Assertions.assertTrue(b.isEmpty());
-	}
-
-	@Test
-	void shouldFindPreviousBooking() {
-		String user = "prueba1";
-		int id = 1;
-		Booking b = this.bookingRepository.findPreviousBooking(user, id);
-		Assertions.assertEquals(b.getProducto().getId(), 1);
 	}
 
 	@Test

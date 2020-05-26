@@ -19,10 +19,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Booking;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @TestMethodOrder(OrderAnnotation.class)
+@Transactional
 class BookingServiceTests {
 
 	@Autowired
@@ -44,7 +46,7 @@ class BookingServiceTests {
 	@Test
 	@WithMockUser(username = "prueba1", password = "practica")
 	@Order(3)
-	void shouldDeleteProduct() {
+	void shouldDeleteBooking() {
 		Collection<Booking> bookings = (Collection<Booking>) bookingService.findAll();
 		int tamAntes = bookings.size() - 1;
 		bookingService.delete(bookingService.findById(1));
