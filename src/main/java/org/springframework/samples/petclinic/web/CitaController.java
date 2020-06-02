@@ -114,13 +114,18 @@ public class CitaController {
   }
 
   @GetMapping(value = "/pets/{petId}/citas/edit/{citaId}")
-  public String initUpdateForm(@PathVariable("citaId") int citaId, ModelMap model) {
+  public String initUpdateForm(@PathVariable("citaId") int citaId,@PathVariable("matingOfferId") int matingOfferId, ModelMap model) {
+	  Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+	    String userId = principal.toString();
+	    MatingOffer met = matingOfferService.findMatById(matingOfferId);
+	    String owner = met.getPet().getOwner().getUser().getUsername();
+	    if(owner.equals(userId)) {
     Cita cita = this.citaservice.findCitaById(citaId);
-    model.put("cita", cita);
+    model.put("cita", cita);}
     return "citas/editCitas";
   }
 
-  @PostMapping(value = "/pets/{petId}/citas/edit/{citaId}")
+  @PostMapping(value = "/pets/{petId}/matingOffers/{matingOfferId}/citas/edit/{citaId}")
   public String processUpdateForm(@Valid Cita cita, BindingResult result, Owner owner,
       @PathVariable("petId") int petId, @PathVariable("citaId") int citaId, ModelMap model) {
 

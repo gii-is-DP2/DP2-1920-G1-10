@@ -66,7 +66,7 @@
 							<spring:param name="citaId" value="${cita.id}" />
 
 							<spring:param name="petId" value="${matingOffer.pet.id}" />
-							<a href="/pets/${matingOffer.pet.id}/citas/edit/${cita.id}">Edit
+							<a href="/pets/${matingOffer.pet.id}/matingOffers/${matingOffer.id}/citas/edit/${cita.id}">Edit
 								cita </a>
 						</spring:url>
 

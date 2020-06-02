@@ -75,8 +75,9 @@ public class CitaService {
 			
 			
 		}
-//		cita.setPet1(null);
-//		cita.setPet2(null);
+		
+		cita.setPet1(null);
+		cita.setPet2(null);
 		
 		citaRepository.deleteById(cita.getId());
 	}
