@@ -54,29 +54,9 @@ public class CitaService {
 	@Transactional
 	public void delete(Cita cita) throws DataAccessException {
 		
-		cita.getPet1().getCitas_pet1().remove(cita);
-		cita.getPet1().getCitas_pet2().remove(cita);
-		
-		cita.getPet2().getCitas_pet2().remove(cita);
-		cita.getPet2().getCitas_pet1().remove(cita);
-		
-		
-		
-		
-		List<MatingOffer> mat1 =  metMatingOfferService.findByMatPetId(cita.getPet1().getId());
-		for (int i = 0; i < mat1.size(); i++) {
-			mat1.get(i).getCitas().remove(cita);
-		
-		}
-		
-		List<MatingOffer> mat2 =  metMatingOfferService.findByMatPetId(cita.getPet2().getId());
-		for (int j = 0; j < mat2.size(); j++) {
-			mat2.get(j).getCitas().remove(cita);
-			
-			
-		}
-//		cita.setPet1(null);
-//		cita.setPet2(null);
+	
+		cita.setPet1(null);
+		cita.setPet2(null);
 		
 		citaRepository.deleteById(cita.getId());
 	}
