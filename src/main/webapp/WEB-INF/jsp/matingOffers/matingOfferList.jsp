@@ -19,8 +19,8 @@
 				<th style="width: 150px;">Name</th>
 				<th style="width: 200px;">Description</th>
 				<th>Type</th>
-					<th>Actions</th>
-
+				<th>Actions</th>
+				<th>Details</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,15 +29,16 @@
 					<td><c:out value="${matingOffer.pet.name}" /></td>
 					<td><c:out value="${matingOffer.description}" /></td>
 					<td><c:out value="${matingOffer.pet.type}" /></td>
-						<td><spring:url value="/matingOffers/delete/{matingOfferId}"
-								var="matingOfferUrl">
-								<spring:param name="matingOfferId" value="${matingOffer.id}" />
-							</spring:url> <a href="${fn:escapeXml(matingOfferUrl)}">Delete</a></td>
-					 <td><spring:url value="pets/{petId}/matingOffers/{matingOfferId}"
-                                var="citatUrl">
-                                <spring:param name="petId" value="${pet.id}"/>
-                                <spring:param name="matingOfferId" value="${matingOffer.id}" />
-                            </spring:url> <a href="/pets/${matingOffer.pet.id}/matingOffers/${matingOffer.id}">Entrar</a></td>
+					<td><spring:url value="/matingOffers/delete/{matingOfferId}"
+							var="matingOfferUrl">
+							<spring:param name="matingOfferId" value="${matingOffer.id}" />
+						</spring:url> <a href="${fn:escapeXml(matingOfferUrl)}">Delete</a></td>
+					<td><spring:url
+							value="pets/{petId}/matingOffers/{matingOfferId}" var="citatUrl">
+							<spring:param name="petId" value="${pet.id}" />
+							<spring:param name="matingOfferId" value="${matingOffer.id}" />
+						</spring:url> <a
+						href="/pets/${matingOffer.pet.id}/matingOffers/${matingOffer.id}">Entrar</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
