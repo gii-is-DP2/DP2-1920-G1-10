@@ -8,7 +8,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="booking">
-    <h2>Comments</h2>
+    <h2 id= "listadoComentarios">Comments</h2>
 
     <table id="commentsTable" class="table table-striped">
         <thead>
